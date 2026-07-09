@@ -47,16 +47,18 @@ tasks/
 │   └── exceptions.py      # Domain errors (transport-agnostic)
 │
 ├── application/      # Use-case orchestration. Depends on domain + ports.
-│   ├── ports.py           # TaskRepository / EventPublisher interfaces
+│   ├── ports.py           # TaskRepository / UnitOfWork / EventStore / EventPublisher
 │   ├── dto.py             # Commands (writes) & Queries (reads) — CQRS-lite
 │   ├── services.py        # TaskApplicationService (one method per use case)
-│   ├── event_bus.py       # Synchronous in-memory pub/sub
-│   └── handlers.py        # Logging + audit-trail subscribers
+│   ├── event_bus.py       # Synchronous in-memory pub/sub (post-commit)
+│   └── handlers.py        # Post-commit subscribers (structured logging)
 │
 ├── infrastructure/   # Concrete adapters. The only layer that imports Django.
 │   ├── models.py          # ORM records (TaskRecord, DomainEventRecord)
 │   ├── mappers.py         # ORM record <-> domain entity
 │   ├── repositories.py    # DjangoTaskRepository (implements the port)
+│   ├── unit_of_work.py    # DjangoUnitOfWork (transaction.atomic boundary)
+│   ├── event_store.py     # DjangoEventStore (transactional audit append)
 │   └── container.py       # DI composition root; wires the object graph
 │
 └── interface/        # Transport adapters (HTTP/REST, web UI, health).
@@ -199,8 +201,10 @@ API/web tests hitting the database and event store.
 
 - **Why are ORM models separate from domain entities?** So the domain can evolve
   independently of the schema. The repository maps between them via `mappers.py`.
-- **Why an event bus for a TODO app?** No good reason. But it means the audit log
-  and logging are decoupled cross-cutting subscribers rather than inline code.
+- **Why an event bus for a TODO app?** No good reason. But it decouples post-commit
+  side-effects (logging today, notifications later) from the use cases. Durable
+  audit persistence is *not* on the bus — it goes through the transactional
+  `EventStore` inside the unit of work, so state and history commit together.
 - **Where does `uuid4`/`now()` live?** Only at the true edges (identity minting,
   timestamps), isolated in small helpers, keeping the rest deterministic.
 - **Is this how you'd build a real TODO app?** No — a real one is ~50 lines. This

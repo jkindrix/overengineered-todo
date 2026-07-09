@@ -203,9 +203,12 @@ LOGGING = {
 # Production hardening
 #
 # These defaults keep local development friction-free (plain HTTP, permissive)
-# while enforcing a secure posture whenever DEBUG is off. Toggling DEBUG=False
-# is therefore sufficient to flip the app into a production-safe configuration;
-# `manage.py check --deploy` passes clean with a real SECRET_KEY set.
+# while enforcing a secure posture whenever DEBUG is off. Turning DEBUG off is
+# the switch, but a real production deployment additionally requires:
+#   * DJANGO_SECRET_KEY set to a strong, unique value (enforced by the boot
+#     guard below — the app refuses to start otherwise), and
+#   * DJANGO_ALLOWED_HOSTS set to the real hostname(s).
+# With those in place, `manage.py check --deploy` passes clean.
 # ---------------------------------------------------------------------------
 # Sensible security headers that are safe in every environment.
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -225,11 +228,18 @@ if not DEBUG:
 
     # HTTPS / transport security.
     SECURE_SSL_REDIRECT = True
-    SECURE_HSTS_SECONDS = 31_536_000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
     # Trust the X-Forwarded-Proto header set by a TLS-terminating proxy.
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    # HSTS is an operational commitment: once a browser sees it, it will refuse
+    # plain-HTTP for the whole max-age, and `preload`/`includeSubDomains` are
+    # effectively one-way. They are therefore env-tunable so an operator can dial
+    # the window down (or to 0) until the entire domain is confidently HTTPS-only.
+    SECURE_HSTS_SECONDS = int(os.environ.get("DJANGO_HSTS_SECONDS", 31_536_000))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = env_bool(
+        "DJANGO_HSTS_INCLUDE_SUBDOMAINS", True
+    )
+    SECURE_HSTS_PRELOAD = env_bool("DJANGO_HSTS_PRELOAD", True)
 
     # Secure-only cookies.
     SESSION_COOKIE_SECURE = True
