@@ -1,5 +1,10 @@
 # Overly-Engineered TODO
 
+[![CI](https://github.com/jkindrix/overengineered-todo/actions/workflows/ci.yml/badge.svg)](https://github.com/jkindrix/overengineered-todo/actions/workflows/ci.yml)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org/)
+[![Django 5.2 LTS](https://img.shields.io/badge/django-5.2%20LTS-092e20)](https://www.djangoproject.com/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 A humble to-do list that took itself far too seriously.
 
 It is a fully local Django web application whose only real job is tracking
@@ -200,3 +205,9 @@ API/web tests hitting the database and event store.
   timestamps), isolated in small helpers, keeping the rest deterministic.
 - **Is this how you'd build a real TODO app?** No — a real one is ~50 lines. This
   is a loving demonstration of enterprise patterns applied with a straight face.
+
+---
+
+## License
+
+Released under the [MIT License](LICENSE). © 2026 Justin Kindrix.
