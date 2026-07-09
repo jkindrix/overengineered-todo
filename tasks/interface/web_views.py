@@ -41,23 +41,36 @@ def _status_summary(tasks: list[dict]) -> dict[str, int]:
 
 @require_http_methods(["GET"])
 def task_list_view(request: HttpRequest) -> HttpResponse:
+    status = request.GET.get("status") or None
+    priority = request.GET.get("priority") or None
+    search = request.GET.get("search") or None
+    order_by = request.GET.get("order_by", "-created_at")
+
     query = ListTasksQuery(
-        status=request.GET.get("status") or None,
-        priority=request.GET.get("priority") or None,
-        search=request.GET.get("search") or None,
-        order_by=request.GET.get("order_by", "-created_at"),
+        status=status, priority=priority, search=search, order_by=order_by
     )
-    tasks = present_tasks(_service().list_tasks(query))
+    try:
+        tasks = present_tasks(_service().list_tasks(query))
+    except DomainError as exc:
+        # An invalid status/priority filter (e.g. a tampered or stale URL) must
+        # not 500 this page. Drop the enum filters, keep the safe ones, and tell
+        # the user, mirroring how the write actions handle bad input.
+        messages.error(request, f"Ignored an invalid filter: {exc}")
+        status = priority = None
+        query = ListTasksQuery(status=None, priority=None, search=search, order_by=order_by)
+        tasks = present_tasks(_service().list_tasks(query))
+
     context = {
         "tasks": tasks,
         "summary": _status_summary(tasks),
         "priorities": [p.name for p in Priority],
         "statuses": [s.value for s in TaskStatus],
         "filters": {
-            "status": request.GET.get("status", ""),
-            "priority": request.GET.get("priority", ""),
-            "search": request.GET.get("search", ""),
-            "order_by": request.GET.get("order_by", "-created_at"),
+            # Reflect the filters actually applied (cleared ones show as reset).
+            "status": status or "",
+            "priority": priority or "",
+            "search": search or "",
+            "order_by": order_by,
         },
     }
     return render(request, "tasks/task_list.html", context)

@@ -140,6 +140,18 @@ def test_api_rejects_bad_enum_input_with_400(client):
 
 
 @pytest.mark.django_db
+def test_web_board_bad_filter_does_not_500(client):
+    # Regression: a tampered/stale filter in the URL must not crash the board.
+    client.post(
+        "/api/tasks/", data={"title": "T"}, content_type="application/json"
+    )
+    assert client.get("/?status=bogus").status_code == 200
+    assert client.get("/?priority=bogus").status_code == 200
+    # The valid task still renders (the bad filter was dropped, not fatal).
+    assert b"Overly-Engineered" in client.get("/?status=bogus").content
+
+
+@pytest.mark.django_db
 def test_web_forms_reject_bad_input_without_500(client):
     # Regression: bad enum values posted to the web actions must be handled
     # (PRG redirect with an error message), not crash with a 500.
