@@ -1,0 +1,89 @@
+{% extends "tasks/base.html" %}
+
+{% block content %}
+<section class="dash">
+  <div class="stats">
+    {% for status, count in summary.items %}
+      <div class="stat stat--{{ status }}">
+        <div class="stat-num">{{ count }}</div>
+        <div class="stat-label">{{ status }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">Create a task</h2>
+  <form class="create-form" method="post" action="{% url 'web-task-create' %}">
+    {% csrf_token %}
+    <input class="input input--grow" type="text" name="title" placeholder="What needs doing?" required maxlength="200">
+    <select class="input" name="priority" title="Priority">
+      {% for p in priorities %}
+        <option value="{{ p }}" {% if p == 'NORMAL' %}selected{% endif %}>{{ p|title }}</option>
+      {% endfor %}
+    </select>
+    <input class="input input--grow" type="text" name="description" placeholder="Optional description" maxlength="5000">
+    <button class="btn btn--primary" type="submit">Add</button>
+  </form>
+</section>
+
+<section class="panel">
+  <form class="filters" method="get" action="{% url 'web-task-list' %}">
+    <input class="input" type="search" name="search" value="{{ filters.search }}" placeholder="Search…">
+    <select class="input" name="status">
+      <option value="">All statuses</option>
+      {% for s in statuses %}
+        <option value="{{ s }}" {% if s == filters.status %}selected{% endif %}>{{ s|title }}</option>
+      {% endfor %}
+    </select>
+    <select class="input" name="priority">
+      <option value="">All priorities</option>
+      {% for p in priorities %}
+        <option value="{{ p }}" {% if p == filters.priority %}selected{% endif %}>{{ p|title }}</option>
+      {% endfor %}
+    </select>
+    <select class="input" name="order_by">
+      <option value="-created_at" {% if filters.order_by == '-created_at' %}selected{% endif %}>Newest</option>
+      <option value="created_at" {% if filters.order_by == 'created_at' %}selected{% endif %}>Oldest</option>
+      <option value="-priority" {% if filters.order_by == '-priority' %}selected{% endif %}>Priority high&rarr;low</option>
+      <option value="title" {% if filters.order_by == 'title' %}selected{% endif %}>Title A–Z</option>
+    </select>
+    <button class="btn" type="submit">Filter</button>
+    <a class="btn btn--ghost" href="{% url 'web-task-list' %}">Reset</a>
+  </form>
+</section>
+
+<section class="tasklist">
+  {% for task in tasks %}
+    <article class="card card--{{ task.status }}">
+      <div class="card-main">
+        <div class="card-head">
+          <span class="pill pill--pri-{{ task.priority_value }}">{{ task.priority_label }}</span>
+          <span class="pill pill--status-{{ task.status }}">{{ task.status_label }}</span>
+        </div>
+        <a class="card-title" href="{% url 'web-task-detail' task.id %}">{{ task.title }}</a>
+        {% if task.description %}<p class="card-desc">{{ task.description }}</p>{% endif %}
+        <div class="card-meta">Created {{ task.created_at|slice:":10" }}{% if task.completed_at %} · Completed {{ task.completed_at|slice:":10" }}{% endif %}</div>
+      </div>
+      <div class="card-actions">
+        {% for target in task.allowed_transitions %}
+          <form method="post" action="{% url 'web-task-transition' task.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="target_status" value="{{ target }}">
+            <button class="btn btn--sm" type="submit">→ {{ target|title }}</button>
+          </form>
+        {% endfor %}
+        <form method="post" action="{% url 'web-task-delete' task.id %}" onsubmit="return confirm('Delete this task?');">
+          {% csrf_token %}
+          <button class="btn btn--sm btn--danger" type="submit">Delete</button>
+        </form>
+      </div>
+    </article>
+  {% empty %}
+    <div class="empty">
+      <p>No tasks yet.</p>
+      <p class="empty-hint">Add one above, or run <code>python manage.py seed_tasks</code>.</p>
+    </div>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,40 @@
+"""Django-backed Event Store.
+
+Implements the `EventStore` port: durably appends domain events to the
+append-only `DomainEventRecord` table. It is called *inside* the unit of work, so
+event rows are written in the same transaction as the aggregate — if either write
+fails, both roll back. This replaces the previous fire-and-forget audit handler,
+whose swallowed failures could leave state and history inconsistent.
+"""
+from __future__ import annotations
+
+from typing import Any, Sequence
+
+from tasks.domain.events import DomainEvent
+
+from .models import DomainEventRecord
+
+
+class DjangoEventStore:
+    """Persist domain events transactionally to the event log."""
+
+    def append(self, events: Sequence[DomainEvent]) -> None:
+        records = [
+            DomainEventRecord(
+                aggregate_id=event.aggregate_id,
+                event_name=event.name,
+                occurred_at=event.occurred_at,
+                payload=_json_safe(event.payload()),
+            )
+            for event in events
+        ]
+        if records:
+            DomainEventRecord.objects.bulk_create(records)
+
+
+def _json_safe(payload: dict) -> dict[str, Any]:
+    """Coerce payload values into JSON-serializable primitives."""
+    safe: dict[str, Any] = {}
+    for key, value in payload.items():
+        safe[key] = list(value) if isinstance(value, tuple) else value
+    return safe

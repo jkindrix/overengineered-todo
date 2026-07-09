@@ -1,0 +1,10 @@
+# Core runtime dependencies for the Overly-Engineered TODO application.
+# Pinned to compatible, well-maintained releases. SQLite is used as the
+# datastore so the app runs locally with zero external services.
+#
+# Django 5.2 is an LTS release (supported until April 2028) and the correct
+# target for Python 3.11; Django 6.0 requires Python 3.12+.
+Django==5.2.16
+djangorestframework==3.16.1
+django-filter==25.2
+python-dotenv==1.0.1

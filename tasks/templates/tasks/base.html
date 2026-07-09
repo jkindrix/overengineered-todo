@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Overly-Engineered TODO{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'tasks/app.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="{% url 'web-task-list' %}">
+        <span class="brand-mark">✔</span>
+        <span class="brand-text">Overly-Engineered<span class="brand-sub">TODO</span></span>
+      </a>
+      <nav class="topnav">
+        <a href="{% url 'web-task-list' %}">Board</a>
+        <a href="/api/tasks/" target="_blank" rel="noopener">REST API</a>
+        <a href="/admin/" target="_blank" rel="noopener">Admin</a>
+        <a href="/healthz/" target="_blank" rel="noopener">Health</a>
+      </nav>
+    </div>
+  </header>
+
+  {% if messages %}
+    <div class="wrap messages">
+      {% for message in messages %}
+        <div class="toast toast--{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>Domain-Driven · CQRS-lite · Audit-Logged · State-Machined · a to-do list.</span>
+    </div>
+  </footer>
+</body>
+</html>

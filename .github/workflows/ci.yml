@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # A throwaway key so `check --deploy` can run; never a real secret.
+      DJANGO_SECRET_KEY: ci-only-not-a-real-secret-key-please-rotate-000000
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: System check
+        run: python manage.py check
+
+      - name: Verify migrations are up to date
+        run: python manage.py makemigrations --check --dry-run
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Deploy security check (production posture)
+        run: DJANGO_DEBUG=False DJANGO_ALLOWED_HOSTS=example.com python manage.py check --deploy --fail-level WARNING

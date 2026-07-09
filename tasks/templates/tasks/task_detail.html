@@ -1,0 +1,69 @@
+{% extends "tasks/base.html" %}
+
+{% block title %}{{ task.title }} · Overly-Engineered TODO{% endblock %}
+
+{% block content %}
+<a class="backlink" href="{% url 'web-task-list' %}">&larr; Back to board</a>
+
+<article class="detail card--{{ task.status }}">
+  <div class="card-head">
+    <span class="pill pill--pri-{{ task.priority_value }}">{{ task.priority_label }}</span>
+    <span class="pill pill--status-{{ task.status }}">{{ task.status_label }}</span>
+  </div>
+  <h1 class="detail-title">{{ task.title }}</h1>
+  {% if task.description %}
+    <p class="detail-desc">{{ task.description }}</p>
+  {% else %}
+    <p class="detail-desc detail-desc--muted">No description.</p>
+  {% endif %}
+
+  <dl class="detail-grid">
+    <div><dt>ID</dt><dd><code>{{ task.id }}</code></dd></div>
+    <div><dt>Created</dt><dd>{{ task.created_at }}</dd></div>
+    <div><dt>Updated</dt><dd>{{ task.updated_at }}</dd></div>
+    <div><dt>Completed</dt><dd>{{ task.completed_at|default:"—" }}</dd></div>
+  </dl>
+
+  <div class="detail-controls">
+    <div class="control-block">
+      <h3>Transition status</h3>
+      {% if task.allowed_transitions %}
+        <div class="btn-row">
+          {% for target in task.allowed_transitions %}
+            <form method="post" action="{% url 'web-task-transition' task.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="target_status" value="{{ target }}">
+              <input type="hidden" name="next" value="{% url 'web-task-detail' task.id %}">
+              <button class="btn btn--sm" type="submit">&rarr; {{ target|title }}</button>
+            </form>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted">This task is in a terminal state.</p>
+      {% endif %}
+    </div>
+
+    <div class="control-block">
+      <h3>Change priority</h3>
+      <form class="btn-row" method="post" action="{% url 'web-task-priority' task.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'web-task-detail' task.id %}">
+        <select class="input" name="priority">
+          {% for p in priorities %}
+            <option value="{{ p }}" {% if p == task.priority %}selected{% endif %}>{{ p|title }}</option>
+          {% endfor %}
+        </select>
+        <button class="btn btn--sm" type="submit">Update</button>
+      </form>
+    </div>
+
+    <div class="control-block">
+      <h3>Danger zone</h3>
+      <form method="post" action="{% url 'web-task-delete' task.id %}" onsubmit="return confirm('Delete this task?');">
+        {% csrf_token %}
+        <button class="btn btn--sm btn--danger" type="submit">Delete task</button>
+      </form>
+    </div>
+  </div>
+</article>
+{% endblock %}
