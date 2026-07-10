@@ -86,6 +86,27 @@ multi-user features; background jobs before recurring/reminders.
 - [ ] #33 — import/export + webhooks ⚙️ M
 - [ ] #34 — PWA/offline + a11y + i18n ⚙️ L
 
+**Phase 6 — GitHub process & governance** — over-engineer the repo's own processes.
+*Quick wins already implemented* (no issue — landed directly): community-health
+files (SECURITY / CoC / SUPPORT / GOVERNANCE / FUNDING / CITATION.cff / CODEOWNERS),
+structured issue forms + PR template, `dependency-review` + OpenSSF `Scorecard` +
+path `labeler` + non-blocking "domain-changed-without-ADR" workflows, CI
+auto-cancel concurrency, and Discussions enabled. *Remaining (tracked as issues):*
+- [ ] #39 — branch protection ruleset + required checks ⚙️ S *(decision: makes work PR-based)*
+- [ ] #40 — merge queue 🎭 S
+- [ ] #41 — reusable workflows / composite actions (DRY CI) ⚙️ M
+- [ ] #42 — OS matrix (ubuntu/macos/windows) 🎭 S
+- [ ] #43 — pin all Actions to SHAs ⚙️ M
+- [ ] #44 — publish + sign Docker image (GHCR + cosign) ⚙️ M
+- [ ] #45 — SLSA provenance + SBOM on releases 🎭 M
+- [ ] #46 — Projects v2 automations (auto-add / auto-Done / iteration; add Phase 6 field option) ⚙️ M
+- [ ] #47 — labels as code (label-sync) ⚙️ S
+- [ ] #48 — scheduled maintenance (link-check / dep-drift / Django-EOL watcher) ⚙️ S
+- [ ] #49 — PR preview deploys of the docs ⚙️ M
+- [ ] #50 — RFC process in Discussions ⭐ S
+- [ ] #51 — DORA metrics dashboard 🎭 L
+- [ ] #52 — repo polish (social preview, stale/welcome bots, Codespaces prebuilds) 🎭 M
+
 ---
 
 ## Track A — Teaching Tool ⭐
