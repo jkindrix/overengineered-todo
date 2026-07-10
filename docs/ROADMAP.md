@@ -68,7 +68,7 @@ teaching goal without it.)*
 
 **Phase 4 — Over-engineering showcase** — deliberate, each with an ROI note.
 - [x] #23 — hash-chained tamper-evident audit log 🎭⭐ M — SHA-256 chain in the event store + `verify_audit_log` command + [ADR-0014](adr/0014-tamper-evident-audit-log.md)
-- [ ] #20 — transactional outbox + relay + idempotency ⚙️🎭 L
+- [ ] #20 — transactional outbox + relay + idempotency ⚙️🎭 L — **deferred**, to be built with #33 (needs an external consumer to be meaningful)
 - [ ] #24 — TLA+/Alloy spec, model-checked in CI 🎭⭐ L
 - [ ] #22 — real event sourcing (replay/snapshots/versioning) 🎭 L
 - [ ] #21 — full CQRS (read models/projections) 🎭 L
@@ -83,7 +83,7 @@ multi-user features; background jobs before recurring/reminders.
 - [ ] #29 — core features (tags/subtasks/deps/recurring/reminders) ⚙️ L
 - [ ] #31 — WebSockets live updates ⚙️ M
 - [ ] #32 — undo/redo via event log ⚙️⭐ M
-- [ ] #33 — import/export + webhooks ⚙️ M
+- [ ] #33 — import/export + webhooks ⚙️ M — webhooks incorporate the transactional outbox (#20)
 - [ ] #34 — PWA/offline + a11y + i18n ⚙️ L
 
 **Phase 6 — GitHub process & governance** — over-engineer the repo's own processes.
