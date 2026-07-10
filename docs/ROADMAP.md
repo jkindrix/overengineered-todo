@@ -70,7 +70,7 @@ teaching goal without it.)*
 - [x] #23 — hash-chained tamper-evident audit log 🎭⭐ M — SHA-256 chain in the event store + `verify_audit_log` command + [ADR-0014](adr/0014-tamper-evident-audit-log.md)
 - [ ] #20 — transactional outbox + relay + idempotency ⚙️🎭 L — **deferred**, to be built with #33 (needs an external consumer to be meaningful)
 - [x] #24 — TLA+ spec, model-checked in CI 🎭⭐ L — `spec/TaskLifecycle.tla` + TLC CI job + [ADR-0015](adr/0015-formal-spec-tla-plus.md) + [verified 3 ways](verified-three-ways.md)
-- [ ] #22 — real event sourcing (replay/snapshots/versioning) 🎭 L
+- [x] #22 — event sourcing (replay/snapshots/versioning) 🎭 L — Option B: `Task.rebuild`/`_apply` + `EventSourcedTaskRepository` + snapshots + upcasting, alongside the state table ([ADR-0016](adr/0016-event-sourcing.md), [docs](event-sourcing.md))
 - [ ] #21 — full CQRS (read models/projections) 🎭 L
 - [ ] #26 — gRPC/GraphQL adapter 🎭 M
 - [ ] #25 — polyglot port 🎭⭐ L *(largest; last)*

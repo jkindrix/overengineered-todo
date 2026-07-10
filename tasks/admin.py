@@ -4,7 +4,11 @@ from __future__ import annotations
 
 from django.contrib import admin
 
-from tasks.infrastructure.models import DomainEventRecord, TaskRecord
+from tasks.infrastructure.models import (
+    DomainEventRecord,
+    TaskRecord,
+    TaskSnapshot,
+)
 
 
 @admin.register(TaskRecord)
@@ -35,3 +39,11 @@ class DomainEventRecordAdmin(admin.ModelAdmin):
     def has_add_permission(self, request) -> bool:
         # The event store is append-only via the domain; block manual creation.
         return False
+
+
+@admin.register(TaskSnapshot)
+class TaskSnapshotAdmin(admin.ModelAdmin):
+    list_display = ("aggregate_id", "last_event_id", "created_at")
+    search_fields = ("aggregate_id",)
+    readonly_fields = ("aggregate_id", "last_event_id", "state", "created_at")
+    ordering = ("-id",)

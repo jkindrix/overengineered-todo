@@ -71,6 +71,7 @@ class Task:
             ev.TaskCreated(
                 aggregate_id=str(task.id),
                 title=task.title,
+                description=task.description,
                 priority=task.priority.name,
                 status=task.status.value,
             )
@@ -100,6 +101,10 @@ class Task:
                 ev.TaskDetailsEdited(
                     aggregate_id=str(self.id),
                     changed_fields=tuple(changed),
+                    title=self.title if "title" in changed else None,
+                    description=(
+                        self.description if "description" in changed else None
+                    ),
                 )
             )
 
@@ -177,6 +182,54 @@ class Task:
 
     def _record(self, event: ev.DomainEvent) -> None:
         self._pending_events.append(event)
+
+    # -- Event sourcing: reconstruct state by replaying events ---------------
+    @classmethod
+    def rebuild(cls, events: list[ev.DomainEvent]) -> Task:
+        """Reconstruct a Task purely from its event stream (ADR-0016).
+
+        The first event must be TaskCreated; the rest are folded in via `_apply`.
+        Timestamps are event-derived (`occurred_at`), so a rebuilt task equals the
+        stored one on business state, not necessarily to the microsecond.
+        """
+        task: Task | None = None
+        for event in events:
+            if isinstance(event, ev.TaskCreated):
+                task = cls(
+                    id=TaskId.parse(event.aggregate_id),
+                    title=event.title,
+                    description=event.description,
+                    priority=Priority[event.priority],
+                    status=TaskStatus(event.status),
+                    created_at=event.occurred_at,
+                    updated_at=event.occurred_at,
+                )
+            elif task is None:
+                raise TaskValidationError("Event stream must begin with TaskCreated.")
+            else:
+                task._apply(event)
+        if task is None:
+            raise TaskValidationError("Cannot rebuild from an empty event stream.")
+        task._pending_events.clear()  # reconstruction emits nothing
+        return task
+
+    def _apply(self, event: ev.DomainEvent) -> None:
+        """Mutate state from a historical event — no validation, no new events."""
+        if isinstance(event, ev.TaskDetailsEdited):
+            if event.title is not None:
+                self.title = event.title
+            if event.description is not None:
+                self.description = event.description
+        elif isinstance(event, ev.TaskStatusChanged):
+            self.status = TaskStatus(event.to_status)
+            if event.to_status == TaskStatus.COMPLETED.value:
+                self.completed_at = event.occurred_at
+            elif event.from_status == TaskStatus.COMPLETED.value:
+                self.completed_at = None
+        elif isinstance(event, ev.TaskPriorityChanged):
+            self.priority = Priority[event.to_priority]
+        # TaskCompleted / TaskArchived carry no state beyond TaskStatusChanged.
+        self.updated_at = event.occurred_at
 
     # -- Internal helpers ----------------------------------------------------
     def _touch(self) -> None:

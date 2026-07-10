@@ -41,13 +41,19 @@ class DomainEvent:
 @dataclass(frozen=True, slots=True)
 class TaskCreated(DomainEvent):
     title: str = ""
+    description: str = ""
     priority: str = ""
     status: str = ""
 
 
 @dataclass(frozen=True, slots=True)
 class TaskDetailsEdited(DomainEvent):
+    # `changed_fields` reads well in the audit log; `title`/`description` carry the
+    # new values so the event is sufficient to *reconstruct* state (event sourcing,
+    # ADR-0016). None means "this field was not changed by this event".
     changed_fields: tuple[str, ...] = ()
+    title: str | None = None
+    description: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

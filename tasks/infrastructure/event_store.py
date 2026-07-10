@@ -15,6 +15,7 @@ from typing import Any
 from tasks.domain.events import DomainEvent
 
 from .audit_chain import compute_entry_hash
+from .event_serialization import CURRENT_EVENT_VERSION
 from .models import DomainEventRecord
 
 
@@ -50,6 +51,7 @@ class DjangoEventStore:
                     payload=payload,
                     prev_hash=prev_hash,
                     entry_hash=entry_hash,
+                    version=CURRENT_EVENT_VERSION,
                 )
             )
             prev_hash = entry_hash

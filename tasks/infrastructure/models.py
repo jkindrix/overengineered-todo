@@ -64,6 +64,8 @@ class DomainEventRecord(models.Model):
     # detectable via `manage.py verify_audit_log`. See ADR-0014.
     prev_hash = models.CharField(max_length=64, blank=True, default="")
     entry_hash = models.CharField(max_length=64, blank=True, default="")
+    # Event schema version, for upcasting old events on replay. See ADR-0016.
+    version = models.IntegerField(default=1)
 
     class Meta:
         app_label = "tasks"
@@ -75,3 +77,28 @@ class DomainEventRecord(models.Model):
 
     def __str__(self) -> str:  # pragma: no cover - display helper
         return f"{self.event_name}@{self.aggregate_id}"
+
+
+class TaskSnapshot(models.Model):
+    """A cached fold of an aggregate's events up to `last_event_id`.
+
+    Replaying from the newest snapshot (rather than from the first event) keeps
+    event-sourced reads cheap. See ADR-0016.
+    """
+
+    id = models.BigAutoField(primary_key=True)
+    aggregate_id = models.UUIDField(db_index=True)
+    last_event_id = models.BigIntegerField()
+    state = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        app_label = "tasks"
+        db_table = "tasks_task_snapshot"
+        ordering = ["-last_event_id"]
+        indexes = [
+            models.Index(fields=["aggregate_id", "-last_event_id"]),
+        ]
+
+    def __str__(self) -> str:  # pragma: no cover - display helper
+        return f"snapshot({self.aggregate_id}@{self.last_event_id})"

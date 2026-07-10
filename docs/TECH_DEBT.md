@@ -105,6 +105,15 @@ diverge silently — the model check would still pass, but against a stale model
 rigorous fix would generate one artifact from the other. Kept small and documented
 as the mitigation.
 
+## 12. Event sourcing is a demonstration, kept alongside the state table
+
+The event-sourcing machinery ([ADR-0016](adr/0016-event-sourcing.md)) coexists with
+the state-based `DjangoTaskRepository` — so **two representations** are maintained.
+"Real" event sourcing would drop the state table and make events the sole truth,
+but then every query needs a **projection**, i.e. it forces **CQRS (#21)**.
+Reconstruction also matches on business state, not exact timestamps (those are
+event-derived). Kept as a demonstration; the genuine payoff is undo/redo (#32).
+
 ## The meta-point
 
 Most of this register exists because the app applies enterprise patterns to a
