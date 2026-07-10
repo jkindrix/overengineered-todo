@@ -57,12 +57,14 @@ own linters, types, security scans, and a multi-version test matrix.
 - [x] #18 — Docker + compose + devcontainer ⚙️ M — image builds & serves; `docker compose up`; Codespaces-ready
 - [x] #19 — conventional commits + semantic-release + CHANGELOG ⚙️ M — PSR config + `release.yml`, conventional-commit hook
 
-**Phase 3 — Teach it** — make it read like a reference.
+**Phase 3 — Teach it** — make it read like a reference. *(4/5 done; #10 deferred
+by decision — the docs site, contrast, diagrams, and code tour deliver the
+teaching goal without it.)*
 - [x] #9 — "50 lines vs. this" contrast ⭐ S — runnable `examples/fifty_lines.py` (67 lines) + `docs/fifty-lines-vs-this.md`
 - [x] #7 — docs site (MkDocs Material, Diátaxis) ⭐ L — `mkdocs.yml` + auto API reference (mkdocstrings) + Mermaid; deployed to GitHub Pages
 - [x] #8 — C4 diagrams ⭐ M — `docs/architecture-diagrams.md` (C4 context/container/component + request flow, Mermaid; validated)
 - [x] #11 — annotated code tour + design journal ⭐ M — `docs/code-tour.md` (one request through 10 stops + why-it-accreted journal)
-- [ ] #10 — chapter branches ⭐ L *(largest; last in phase)*
+- [ ] #10 — chapter branches ⭐ L — **deferred** (issue open); large staged-history effort, revisit as its own focused task
 
 **Phase 4 — Over-engineering showcase** — deliberate, each with an ROI note.
 - [ ] #23 — hash-chained tamper-evident audit log 🎭⭐ M *(self-contained; do first)*
