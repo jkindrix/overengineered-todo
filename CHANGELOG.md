@@ -7,6 +7,10 @@ by hand. Releases are cut by `.github/workflows/release.yml` on pushes to `main`
 
 <!-- version list -->
 
+## v1.0.0 (2026-07-10)
+
+- Initial Release
+
 ## Unreleased
 
 The project is pre-1.0 and has not yet cut its first automated release. Until then,
