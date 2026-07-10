@@ -7,7 +7,7 @@
 # ---------------------------------------------------------------------------
 [project]
 name = "overengineered-todo"
-version = "1.0.0"
+version = "1.1.0"
 description = "A deliberately over-engineered local Django TODO app: hexagonal architecture, domain events, transactional Unit of Work + Event Store, state machine, REST API + web UI."
 readme = "README.md"
 requires-python = ">=3.11"
