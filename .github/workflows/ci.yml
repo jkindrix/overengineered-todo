@@ -19,8 +19,8 @@ jobs:
     name: Quality (lint, types, security, checks)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -66,8 +66,8 @@ jobs:
             django: ">=6.0,<7"
             experimental: true
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
           cache: pip
@@ -80,7 +80,7 @@ jobs:
         run: pytest -q --cov --cov-report=xml
       - name: Upload coverage to Codecov
         if: ${{ matrix.python == '3.11' && matrix.django == '==5.2.16' }}
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
         with:
           files: coverage.xml
           fail_ci_if_error: false
