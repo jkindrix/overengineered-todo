@@ -34,9 +34,10 @@ Effort: **S** (hours) · **M** (a day or two) · **L** (multi-day).
 file alone — so it survives even if the issue tracker or any conversation is lost.
 Check items off as they land; a completed item links to its merge commit.
 
-> No GitHub Projects board is used: the repo's `project` scope is not enabled. To
-> add one later, run `gh auth refresh -s project` and mirror these phases. The doc
-> + labels remain authoritative regardless.
+> A GitHub Projects board mirrors these phases (custom **Phase** field + built-in
+> **Status**): <https://github.com/users/jkindrix/projects/2>. The board is a
+> convenience view; **this doc + the `phase:N` labels remain authoritative**, since
+> they live in git and survive anything.
 
 **Phase 1 — Self-enforcement** ✅ **complete** — turned architectural *claims* into
 CI-checked *guarantees*. Highest leverage, lowest risk; done first so everything
