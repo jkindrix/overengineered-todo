@@ -90,6 +90,9 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["B018"]
+# The single-file demo intentionally keeps imports after settings.configure and
+# uses long inline-HTML strings; both are the point of the "one file" contrast.
+"examples/**" = ["E402", "E501"]
 
 # ---------------------------------------------------------------------------
 # Mypy — strict on the framework-free core (domain + application); the

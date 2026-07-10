@@ -58,7 +58,7 @@ own linters, types, security scans, and a multi-version test matrix.
 - [x] #19 — conventional commits + semantic-release + CHANGELOG ⚙️ M — PSR config + `release.yml`, conventional-commit hook
 
 **Phase 3 — Teach it** — make it read like a reference.
-- [ ] #9 — "50 lines vs. this" contrast ⭐ S *(quick, high pedagogy; do first)*
+- [x] #9 — "50 lines vs. this" contrast ⭐ S — runnable `examples/fifty_lines.py` (67 lines) + `docs/fifty-lines-vs-this.md`
 - [ ] #7 — docs site (MkDocs Material, Diátaxis) ⭐ L
 - [ ] #8 — C4 diagrams ⭐ M
 - [ ] #11 — annotated code tour + design journal ⭐ M

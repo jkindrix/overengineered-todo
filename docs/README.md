@@ -15,6 +15,7 @@ way it is, so maintainers can change it safely.
 
 | If you want to… | Read |
 |-----------------|------|
+| See the whole point in 2 minutes (same app in 67 lines vs. this) | [fifty-lines-vs-this.md](fifty-lines-vs-this.md) |
 | Get the app running and understand the mental model | [ONBOARDING.md](ONBOARDING.md) |
 | Understand the layers, the dependency rule, and the request lifecycle | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Add a feature or fix a bug the "right" way | [CONTRIBUTING.md](CONTRIBUTING.md) |
