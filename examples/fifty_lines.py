@@ -21,7 +21,9 @@ if not settings.configured:
         ROOT_URLCONF=__name__,
         ALLOWED_HOSTS=["*"],
         INSTALLED_APPS=["__main__"],
-        DATABASES={"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "fifty.sqlite3"}},
+        DATABASES={
+            "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "fifty.sqlite3"}
+        },
         MIDDLEWARE=[],
     )
 
