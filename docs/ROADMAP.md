@@ -61,7 +61,7 @@ own linters, types, security scans, and a multi-version test matrix.
 - [x] #9 — "50 lines vs. this" contrast ⭐ S — runnable `examples/fifty_lines.py` (67 lines) + `docs/fifty-lines-vs-this.md`
 - [ ] #7 — docs site (MkDocs Material, Diátaxis) ⭐ L
 - [x] #8 — C4 diagrams ⭐ M — `docs/architecture-diagrams.md` (C4 context/container/component + request flow, Mermaid; validated)
-- [ ] #11 — annotated code tour + design journal ⭐ M
+- [x] #11 — annotated code tour + design journal ⭐ M — `docs/code-tour.md` (one request through 10 stops + why-it-accreted journal)
 - [ ] #10 — chapter branches ⭐ L *(largest; last in phase)*
 
 **Phase 4 — Over-engineering showcase** — deliberate, each with an ROI note.

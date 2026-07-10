@@ -19,6 +19,7 @@ way it is, so maintainers can change it safely.
 | Get the app running and understand the mental model | [ONBOARDING.md](ONBOARDING.md) |
 | Understand the layers, the dependency rule, and the request lifecycle | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | See it as diagrams (C4 context/container/component) | [architecture-diagrams.md](architecture-diagrams.md) |
+| Follow one request through every layer (annotated) | [code-tour.md](code-tour.md) |
 | Add a feature or fix a bug the "right" way | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Know *why* a decision was made (and what we rejected) | [adr/](adr/README.md) |
 | See known weaknesses and deferred work | [TECH_DEBT.md](TECH_DEBT.md) |
