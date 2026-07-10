@@ -7,6 +7,7 @@
 [![Django 5.2 LTS](https://img.shields.io/badge/django-5.2%20LTS-092e20)](https://www.djangoproject.com/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Docs](https://img.shields.io/badge/docs-mkdocs--material-526cfe)](https://jkindrix.github.io/overengineered-todo/)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/jkindrix/overengineered-todo/badge)](https://scorecard.dev/viewer/?uri=github.com/jkindrix/overengineered-todo)
 
 A humble to-do list that took itself far too seriously.
 

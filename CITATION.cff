@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you reference this project as a teaching example, please cite it."
+title: "Overly-Engineered TODO"
+abstract: >-
+  A deliberately over-engineered local Django to-do application: a teaching
+  reference for architectural trade-off literacy, applying hexagonal architecture,
+  a rich domain model, domain events, a transactional Unit of Work and Event Store,
+  a finite state machine, CQRS-lite, and ports/adapters to a domain small enough to
+  hold in your head — with candid ROI accounting (ADRs) for every pattern.
+type: software
+authors:
+  - given-names: Justin
+    family-names: Kindrix
+    alias: jkindrix
+repository-code: "https://github.com/jkindrix/overengineered-todo"
+url: "https://jkindrix.github.io/overengineered-todo/"
+license: MIT
+keywords:
+  - django
+  - hexagonal-architecture
+  - domain-driven-design
+  - clean-architecture
+  - teaching
+  - software-architecture

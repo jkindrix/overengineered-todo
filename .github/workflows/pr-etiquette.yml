@@ -1,0 +1,28 @@
+name: PR etiquette
+
+# Belt-and-suspenders atop import-linter: a friendly (non-blocking) reminder that
+# domain / core changes should usually come with an ADR. Emits a warning
+# annotation; it does not fail the build.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  adr-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Domain changed without an ADR?
+        run: |
+          base='${{ github.event.pull_request.base.sha }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          files=$(git diff --name-only "$base" "$head")
+          if echo "$files" | grep -qE '^tasks/domain/' && ! echo "$files" | grep -qE '^docs/adr/'; then
+            echo "::warning::This PR changes tasks/domain/ but adds no ADR under docs/adr/. Core/domain changes should usually come with an ADR (see CONTRIBUTING and GOVERNANCE)."
+          else
+            echo "ADR etiquette check: OK"
+          fi

@@ -1,0 +1,48 @@
+name: ADR proposal
+description: Propose an architectural decision (new pattern, or changing an existing one).
+labels: ["type:adr"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Architectural changes are recorded as ADRs
+        ([see existing](https://jkindrix.github.io/overengineered-todo/adr/)).
+        This form drafts one; on acceptance it becomes `docs/adr/NNNN-*.md`.
+  - type: input
+    id: title
+    attributes:
+      label: Decision title
+      placeholder: "e.g. Adopt a transactional outbox for event delivery"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: The problem and the forces at play.
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: Proposed decision
+    validations:
+      required: true
+  - type: textarea
+    id: consequences
+    attributes:
+      label: Consequences (positive / negative / neutral)
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered (and why rejected)
+    validations:
+      required: true
+  - type: input
+    id: supersedes
+    attributes:
+      label: Supersedes ADR (if any)
+    validations:
+      required: false

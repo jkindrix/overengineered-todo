@@ -1,0 +1,35 @@
+name: Feature / enhancement
+description: Propose a feature, improvement, or (of course) more over-engineering.
+labels: ["type:enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What are you trying to do, and why?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: dropdown
+    id: roi
+    attributes:
+      label: Honest ROI (for a to-do app)
+      description: In the spirit of this repo — is this a genuine win or a demonstration?
+      options:
+        - "genuine — a real improvement"
+        - "bit — over-engineering demonstration (low practical value)"
+        - "teaching-lever — advances the teaching-tool goal"
+        - "not sure"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false

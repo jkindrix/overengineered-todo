@@ -5,6 +5,11 @@ on:
     branches: [main]
   pull_request:
 
+# Auto-cancel superseded runs on the same ref (saves CI minutes on rapid pushes).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   # A throwaway key so the deploy check can run; never a real secret.
   DJANGO_SECRET_KEY: ci-only-not-a-real-secret-key-please-rotate-000000

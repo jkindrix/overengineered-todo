@@ -1,0 +1,16 @@
+# Code owners — auto-requested as reviewers on matching paths.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything.
+*                       @jkindrix
+
+# The framework-free core: changes here should come with an ADR.
+/tasks/domain/          @jkindrix
+/tasks/application/     @jkindrix
+
+# Architecture decisions and docs.
+/docs/adr/              @jkindrix
+/docs/                  @jkindrix
+
+# CI / process / governance.
+/.github/               @jkindrix

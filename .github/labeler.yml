@@ -1,0 +1,22 @@
+# Path-based auto-labeling for PRs (actions/labeler v5 schema).
+"area:domain":
+  - changed-files:
+      - any-glob-to-any-file: ["tasks/domain/**"]
+"area:application":
+  - changed-files:
+      - any-glob-to-any-file: ["tasks/application/**"]
+"area:infrastructure":
+  - changed-files:
+      - any-glob-to-any-file: ["tasks/infrastructure/**"]
+"area:interface":
+  - changed-files:
+      - any-glob-to-any-file: ["tasks/interface/**"]
+"area:tests":
+  - changed-files:
+      - any-glob-to-any-file: ["tests/**"]
+"area:docs":
+  - changed-files:
+      - any-glob-to-any-file: ["docs/**", "*.md", "mkdocs.yml"]
+"area:ci":
+  - changed-files:
+      - any-glob-to-any-file: [".github/**"]

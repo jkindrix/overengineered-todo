@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & discussion
+    url: https://github.com/jkindrix/overengineered-todo/discussions
+    about: Ask a question, share an idea, or start an RFC in Discussions.
+  - name: Documentation
+    url: https://jkindrix.github.io/overengineered-todo/
+    about: Read the docs before filing — the code tour and ADRs answer a lot.
+  - name: Report a security vulnerability
+    url: https://github.com/jkindrix/overengineered-todo/security/advisories/new
+    about: Please report security issues privately, not as a public issue.
