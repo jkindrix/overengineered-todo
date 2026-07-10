@@ -36,6 +36,12 @@ python manage.py seed_tasks --wipe
 python manage.py runserver
 ```
 
+**Or run it in Docker** (no local Python needed):
+
+```bash
+docker compose up --build      # then open http://localhost:8000
+```
+
 Dependencies and all tool config live in `pyproject.toml` (the canonical source);
 `requirements*.txt` are a pip-friendly mirror. Quality tooling: **ruff** (lint +
 format), **mypy** (strict on the framework-free core), **pyright** (editor import

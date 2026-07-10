@@ -53,7 +53,7 @@ linters. *Order within the phase matters:* packaging first (it's the config home
 - [x] #15 — CI matrix (py 3.11–3.13 × Django 5.2; 6.0 experimental) ⚙️ S — `quality` + matrixed `test` jobs
 - [x] #16 — coverage gate + Codecov ⚙️ S — `fail_under=80` (branch cov), Codecov upload + badge
 - [x] #17 — security scanning (bandit/pip-audit/CodeQL/Dependabot) ⚙️ M — + fixed 2 CVEs (pytest, python-dotenv)
-- [ ] #18 — Docker + compose + devcontainer ⚙️ M
+- [x] #18 — Docker + compose + devcontainer ⚙️ M — image builds & serves; `docker compose up`; Codespaces-ready
 - [ ] #19 — conventional commits + semantic-release + CHANGELOG ⚙️ M
 
 **Phase 3 — Teach it** — make it read like a reference.
