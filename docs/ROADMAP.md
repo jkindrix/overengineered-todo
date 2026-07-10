@@ -45,8 +45,9 @@ after is trustworthy.
 - [x] #5 — import-linter: enforce the hexagonal dependency rule ⭐⚙️ M — `.importlinter` (3 contracts) + CI step
 - [x] #6 — Hypothesis: property-based state-machine tests ⭐⚙️ M — `tests/test_state_machine_properties.py`
 
-**Phase 2 — Clean under its own tooling** — a teaching repo must pass its own
-linters. *Order within the phase matters:* packaging first (it's the config home).
+**Phase 2 — Clean under its own tooling** ✅ **complete** — the repo now passes its
+own linters, types, security scans, and a multi-version test matrix.
+*Order within the phase mattered:* packaging first (the config home).
 - [x] #14 — `pyproject.toml` (PEP 621) + `uv` ⚙️ M — canonical config home, `uv.lock`, pytest migrated off `pytest.ini`
 - [x] #12 — pyright config + `mypy --strict` (core) ⚙️ M — pyright resolves imports (0 errors); mypy strict on domain+application; both in CI/pre-commit
 - [x] #13 — `ruff` + `pre-commit` ⚙️ S — ruff lint+format (whole tree), `.pre-commit-config.yaml`, CI lint step
@@ -54,7 +55,7 @@ linters. *Order within the phase matters:* packaging first (it's the config home
 - [x] #16 — coverage gate + Codecov ⚙️ S — `fail_under=80` (branch cov), Codecov upload + badge
 - [x] #17 — security scanning (bandit/pip-audit/CodeQL/Dependabot) ⚙️ M — + fixed 2 CVEs (pytest, python-dotenv)
 - [x] #18 — Docker + compose + devcontainer ⚙️ M — image builds & serves; `docker compose up`; Codespaces-ready
-- [ ] #19 — conventional commits + semantic-release + CHANGELOG ⚙️ M
+- [x] #19 — conventional commits + semantic-release + CHANGELOG ⚙️ M — PSR config + `release.yml`, conventional-commit hook
 
 **Phase 3 — Teach it** — make it read like a reference.
 - [ ] #9 — "50 lines vs. this" contrast ⭐ S *(quick, high pedagogy; do first)*

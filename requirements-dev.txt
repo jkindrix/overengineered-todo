@@ -22,3 +22,5 @@ pre-commit>=3.7
 # Security scanning.
 bandit>=1.7
 pip-audit>=2.7
+# Automated versioning + changelog + releases.
+python-semantic-release>=9.8

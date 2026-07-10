@@ -37,6 +37,8 @@ dev = [
     # Security scanning.
     "bandit>=1.7",
     "pip-audit>=2.7",
+    # Automated versioning + changelog + GitHub releases.
+    "python-semantic-release>=9.8",
 ]
 
 # This is an application, not a distributable library: uv manages the venv but
@@ -123,3 +125,16 @@ typeCheckingMode = "basic"
 # ---------------------------------------------------------------------------
 [tool.bandit]
 exclude_dirs = ["tests", "*/migrations/*", ".venv"]
+
+# ---------------------------------------------------------------------------
+# python-semantic-release — version bump + CHANGELOG + GitHub release, driven
+# by conventional commits. Runs in CI (.github/workflows/release.yml).
+# ---------------------------------------------------------------------------
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+build_command = ""
+commit_message = "chore(release): v{version} [skip ci]"
+tag_format = "v{version}"
+
+[tool.semantic_release.branches.main]
+match = "main"

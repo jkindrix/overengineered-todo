@@ -23,6 +23,14 @@ repos:
         args: [--fix]
       - id: ruff-format
 
+  # Enforce Conventional Commits on the commit message. Requires installing the
+  # commit-msg hook: `pre-commit install --hook-type commit-msg`.
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.6.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
   # Local hooks use the project's own environment so they see its dependencies.
   - repo: local
     hooks:
