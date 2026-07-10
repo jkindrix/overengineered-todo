@@ -38,11 +38,11 @@ Check items off as they land; a completed item links to its merge commit.
 > add one later, run `gh auth refresh -s project` and mirror these phases. The doc
 > + labels remain authoritative regardless.
 
-**Phase 1 — Self-enforcement** — turn architectural *claims* into CI-checked
-*guarantees*. Highest leverage, lowest risk; do first so everything after is
-trustworthy.
+**Phase 1 — Self-enforcement** ✅ **complete** — turned architectural *claims* into
+CI-checked *guarantees*. Highest leverage, lowest risk; done first so everything
+after is trustworthy.
 - [x] #5 — import-linter: enforce the hexagonal dependency rule ⭐⚙️ M — `.importlinter` (3 contracts) + CI step
-- [ ] #6 — Hypothesis: property-based state-machine tests ⭐⚙️ M
+- [x] #6 — Hypothesis: property-based state-machine tests ⭐⚙️ M — `tests/test_state_machine_properties.py`
 
 **Phase 2 — Clean under its own tooling** — a teaching repo must pass its own
 linters. *Order within the phase matters:* packaging first (it's the config home).
