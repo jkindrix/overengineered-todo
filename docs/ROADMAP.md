@@ -27,6 +27,63 @@ Effort: **S** (hours) · **M** (a day or two) · **L** (multi-day).
 
 ---
 
+## Execution order (dependency-sequenced)
+
+**This section is the source of truth for sequencing.** It is mirrored by
+`phase:N` labels on the GitHub issues, but the ordering is recoverable from this
+file alone — so it survives even if the issue tracker or any conversation is lost.
+Check items off as they land; a completed item links to its merge commit.
+
+> No GitHub Projects board is used: the repo's `project` scope is not enabled. To
+> add one later, run `gh auth refresh -s project` and mirror these phases. The doc
+> + labels remain authoritative regardless.
+
+**Phase 1 — Self-enforcement** — turn architectural *claims* into CI-checked
+*guarantees*. Highest leverage, lowest risk; do first so everything after is
+trustworthy.
+- [ ] #5 — import-linter: enforce the hexagonal dependency rule ⭐⚙️ M
+- [ ] #6 — Hypothesis: property-based state-machine tests ⭐⚙️ M
+
+**Phase 2 — Clean under its own tooling** — a teaching repo must pass its own
+linters. *Order within the phase matters:* packaging first (it's the config home).
+- [ ] #14 — `pyproject.toml` (PEP 621) + `uv` ⚙️ M *(do first)*
+- [ ] #12 — pyright config + `mypy --strict` ⚙️ M
+- [ ] #13 — `ruff` + `pre-commit` ⚙️ S
+- [ ] #15 — CI matrix (py 3.11–3.13 × Django 5.2/6.0) ⚙️ S
+- [ ] #16 — coverage gate + Codecov ⚙️ S
+- [ ] #17 — security scanning (bandit/pip-audit/CodeQL/Dependabot) ⚙️ M
+- [ ] #18 — Docker + compose + devcontainer ⚙️ M
+- [ ] #19 — conventional commits + semantic-release + CHANGELOG ⚙️ M
+
+**Phase 3 — Teach it** — make it read like a reference.
+- [ ] #9 — "50 lines vs. this" contrast ⭐ S *(quick, high pedagogy; do first)*
+- [ ] #7 — docs site (MkDocs Material, Diátaxis) ⭐ L
+- [ ] #8 — C4 diagrams ⭐ M
+- [ ] #11 — annotated code tour + design journal ⭐ M
+- [ ] #10 — chapter branches ⭐ L *(largest; last in phase)*
+
+**Phase 4 — Over-engineering showcase** — deliberate, each with an ROI note.
+- [ ] #23 — hash-chained tamper-evident audit log 🎭⭐ M *(self-contained; do first)*
+- [ ] #20 — transactional outbox + relay + idempotency ⚙️🎭 L
+- [ ] #24 — TLA+/Alloy spec, model-checked in CI 🎭⭐ L
+- [ ] #22 — real event sourcing (replay/snapshots/versioning) 🎭 L
+- [ ] #21 — full CQRS (read models/projections) 🎭 L
+- [ ] #26 — gRPC/GraphQL adapter 🎭 M
+- [ ] #25 — polyglot port 🎭⭐ L *(largest; last)*
+
+**Phase 5 — Product realism** — close the toy gap. *Order:* auth → authz →
+multi-user features; background jobs before recurring/reminders.
+- [ ] #27 — authentication (sessions→OIDC→passkeys) ⚙️ L *(prereq for the rest)*
+- [ ] #28 — authorization (RBAC + object perms) ⚙️ M
+- [ ] #30 — background jobs + scheduler ⚙️ M *(before recurring/reminders)*
+- [ ] #29 — core features (tags/subtasks/deps/recurring/reminders) ⚙️ L
+- [ ] #31 — WebSockets live updates ⚙️ M
+- [ ] #32 — undo/redo via event log ⚙️⭐ M
+- [ ] #33 — import/export + webhooks ⚙️ M
+- [ ] #34 — PWA/offline + a11y + i18n ⚙️ L
+
+---
+
 ## Track A — Teaching Tool ⭐
 
 *Milestone: **Teaching Tool**. Goal: make the concepts self-enforcing, navigable,
