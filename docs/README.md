@@ -20,6 +20,7 @@ way it is, so maintainers can change it safely.
 | Add a feature or fix a bug the "right" way | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Know *why* a decision was made (and what we rejected) | [adr/](adr/README.md) |
 | See known weaknesses and deferred work | [TECH_DEBT.md](TECH_DEBT.md) |
+| See where this is headed (and the teaching-tool ambition) | [ROADMAP.md](ROADMAP.md) |
 
 ## The 60-second overview
 
