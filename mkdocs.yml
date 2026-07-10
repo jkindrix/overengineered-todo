@@ -59,6 +59,7 @@ nav:
       - Architecture: ARCHITECTURE.md
       - Diagrams (C4): architecture-diagrams.md
       - Code tour: code-tour.md
+      - Verified three ways: verified-three-ways.md
       - Tech debt: TECH_DEBT.md
       - Roadmap: ROADMAP.md
   - API reference:
@@ -80,3 +81,5 @@ nav:
       - 0011 SQLite + config: adr/0011-infrastructure-sqlite-config.md
       - 0012 Testing strategy: adr/0012-testing-strategy.md
       - 0013 Unit of Work + Event Store: adr/0013-transactional-unit-of-work-event-store.md
+      - 0014 Tamper-evident audit log: adr/0014-tamper-evident-audit-log.md
+      - 0015 Formal spec (TLA+): adr/0015-formal-spec-tla-plus.md

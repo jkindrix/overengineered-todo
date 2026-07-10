@@ -69,7 +69,7 @@ teaching goal without it.)*
 **Phase 4 — Over-engineering showcase** — deliberate, each with an ROI note.
 - [x] #23 — hash-chained tamper-evident audit log 🎭⭐ M — SHA-256 chain in the event store + `verify_audit_log` command + [ADR-0014](adr/0014-tamper-evident-audit-log.md)
 - [ ] #20 — transactional outbox + relay + idempotency ⚙️🎭 L — **deferred**, to be built with #33 (needs an external consumer to be meaningful)
-- [ ] #24 — TLA+/Alloy spec, model-checked in CI 🎭⭐ L
+- [x] #24 — TLA+ spec, model-checked in CI 🎭⭐ L — `spec/TaskLifecycle.tla` + TLC CI job + [ADR-0015](adr/0015-formal-spec-tla-plus.md) + [verified 3 ways](verified-three-ways.md)
 - [ ] #22 — real event sourcing (replay/snapshots/versioning) 🎭 L
 - [ ] #21 — full CQRS (read models/projections) 🎭 L
 - [ ] #26 — gRPC/GraphQL adapter 🎭 M

@@ -1,0 +1,24 @@
+name: Model check (TLA+)
+
+# Model-checks the task lifecycle state machine with TLC. TLC exits non-zero on a
+# violated invariant/property, so this genuinely gates. See ADR-0015.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tlc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Fetch TLC (tla2tools)
+        run: curl -sSL -o tla2tools.jar https://github.com/tlaplus/tlaplus/releases/latest/download/tla2tools.jar
+      - name: Model-check the task lifecycle
+        working-directory: spec
+        # -deadlock: ARCHIVED is an intentional terminal state, not a deadlock.
+        run: java -cp ../tla2tools.jar tlc2.TLC -deadlock -config TaskLifecycle.cfg TaskLifecycle.tla

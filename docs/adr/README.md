@@ -32,6 +32,7 @@ Context, Decision, Consequences, Alternatives considered, Related.
 | [0012](0012-testing-strategy.md) | Test in three tiers matching the layers | Accepted |
 | [0013](0013-transactional-unit-of-work-event-store.md) | Atomic state + events via a Unit of Work and Event Store | Accepted |
 | [0014](0014-tamper-evident-audit-log.md) | Tamper-evident audit log via a hash chain | Accepted |
+| [0015](0015-formal-spec-tla-plus.md) | Formally verify the state machine with TLA+ | Accepted |
 
 ## Conventions
 

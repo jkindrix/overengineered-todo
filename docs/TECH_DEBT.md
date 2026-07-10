@@ -96,6 +96,15 @@ the attacker lacks (HMAC-signed chain) or write-once storage. Also, chained appe
 are serialized — fine on SQLite, but concurrent writers on PostgreSQL would need
 row-locking. Both are conscious trade-offs for a demonstration.
 
+## 11. The TLA+ spec can drift from the code
+
+`spec/TaskLifecycle.tla` ([ADR-0015](adr/0015-formal-spec-tla-plus.md)) is
+hand-written to mirror `tasks/domain/state_machine.py`; it is not generated from
+the code. Editing the transition table without updating the spec would let them
+diverge silently — the model check would still pass, but against a stale model. A
+rigorous fix would generate one artifact from the other. Kept small and documented
+as the mitigation.
+
 ## The meta-point
 
 Most of this register exists because the app applies enterprise patterns to a
