@@ -60,7 +60,7 @@ own linters, types, security scans, and a multi-version test matrix.
 **Phase 3 — Teach it** — make it read like a reference.
 - [x] #9 — "50 lines vs. this" contrast ⭐ S — runnable `examples/fifty_lines.py` (67 lines) + `docs/fifty-lines-vs-this.md`
 - [ ] #7 — docs site (MkDocs Material, Diátaxis) ⭐ L
-- [ ] #8 — C4 diagrams ⭐ M
+- [x] #8 — C4 diagrams ⭐ M — `docs/architecture-diagrams.md` (C4 context/container/component + request flow, Mermaid; validated)
 - [ ] #11 — annotated code tour + design journal ⭐ M
 - [ ] #10 — chapter branches ⭐ L *(largest; last in phase)*
 

@@ -2,6 +2,8 @@
 
 This is the authoritative description of how the system is structured and why.
 For the *reasoning and trade-offs* behind each decision, follow the linked ADRs.
+For **C4 diagrams** (context / container / component) and a request-flow diagram,
+see [architecture-diagrams.md](architecture-diagrams.md).
 
 ## Contents
 
