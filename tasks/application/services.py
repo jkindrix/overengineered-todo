@@ -5,10 +5,11 @@ aggregates through the repository port, invokes rich domain behavior, persists,
 then drains and publishes the resulting domain events. All business rules live
 in the domain; all wiring lives in the container. This class only coordinates.
 """
+
 from __future__ import annotations
 
 import logging
-from typing import Sequence
+from collections.abc import Callable, Sequence
 
 from tasks.domain.entities import Task
 from tasks.domain.events import DomainEvent
@@ -98,12 +99,8 @@ class TaskApplicationService:
         return self._repository.get(TaskId.parse(query.task_id))
 
     def list_tasks(self, query: ListTasksQuery) -> Sequence[Task]:
-        status = (
-            TaskStatus.from_value(query.status) if query.status else None
-        )
-        priority = (
-            Priority.from_name(query.priority) if query.priority else None
-        )
+        status = TaskStatus.from_value(query.status) if query.status else None
+        priority = Priority.from_name(query.priority) if query.priority else None
         return self._repository.list(
             status=status,
             priority=priority,
@@ -112,7 +109,9 @@ class TaskApplicationService:
         )
 
     # -- Internal ------------------------------------------------------------
-    def _commit(self, task: Task, *, persist) -> Sequence[DomainEvent]:
+    def _commit(
+        self, task: Task, *, persist: Callable[[Task], None]
+    ) -> Sequence[DomainEvent]:
         """Persist the aggregate and its events in a single transaction.
 
         The repository write and the event-store append happen inside one unit

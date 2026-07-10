@@ -7,10 +7,11 @@ knowledge of persistence — repositories map it to and from storage.
 Business rules are expressed as methods that mutate state *and* append the
 corresponding event, so no state change can occur without a matching event.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from . import events as ev
 from . import state_machine
@@ -22,7 +23,7 @@ MAX_DESCRIPTION_LENGTH = 5_000
 
 
 def _utcnow() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 @dataclass(eq=False)
@@ -52,7 +53,7 @@ class Task:
         title: str,
         description: str = "",
         priority: Priority = Priority.NORMAL,
-    ) -> "Task":
+    ) -> Task:
         """Factory for a brand-new task. Emits a TaskCreated event."""
         clean_title = cls._validate_title(title)
         clean_description = cls._validate_description(description)
@@ -117,9 +118,7 @@ class Task:
             )
         )
 
-    def transition_to(
-        self, target: TaskStatus, *, enforce: bool = True
-    ) -> None:
+    def transition_to(self, target: TaskStatus, *, enforce: bool = True) -> None:
         """Move the task to a new status, honoring the state machine.
 
         `enforce` allows the strict-state-machine feature flag to be threaded
@@ -199,7 +198,6 @@ class Task:
         clean = (description or "").strip()
         if len(clean) > MAX_DESCRIPTION_LENGTH:
             raise TaskValidationError(
-                f"Description must be at most {MAX_DESCRIPTION_LENGTH} "
-                "characters."
+                f"Description must be at most {MAX_DESCRIPTION_LENGTH} characters."
             )
         return clean

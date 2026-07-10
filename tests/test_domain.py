@@ -1,4 +1,5 @@
 """Unit tests for the pure domain layer (no database required)."""
+
 from __future__ import annotations
 
 import pytest

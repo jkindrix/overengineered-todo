@@ -1,4 +1,5 @@
 """End-to-end API tests through the full stack (DB, ORM, DRF, event store)."""
+
 from __future__ import annotations
 
 from unittest.mock import patch
@@ -41,9 +42,9 @@ def test_list_is_paginated(client):
             content_type="application/json",
         )
     page1 = client.get("/api/tasks/").json()
-    assert page1["count"] == 25            # total across all pages
-    assert len(page1["results"]) == 20     # PAGE_SIZE
-    assert page1["next"] is not None       # a second page exists
+    assert page1["count"] == 25  # total across all pages
+    assert len(page1["results"]) == 20  # PAGE_SIZE
+    assert page1["next"] is not None  # a second page exists
     assert page1["previous"] is None
 
     page2 = client.get("/api/tasks/?page=2").json()
@@ -142,9 +143,7 @@ def test_api_rejects_bad_enum_input_with_400(client):
 @pytest.mark.django_db
 def test_web_board_bad_filter_does_not_500(client):
     # Regression: a tampered/stale filter in the URL must not crash the board.
-    client.post(
-        "/api/tasks/", data={"title": "T"}, content_type="application/json"
-    )
+    client.post("/api/tasks/", data={"title": "T"}, content_type="application/json")
     assert client.get("/?status=bogus").status_code == 200
     assert client.get("/?priority=bogus").status_code == 200
     # The valid task still renders (the bad filter was dropped, not fatal).
@@ -162,9 +161,7 @@ def test_web_forms_reject_bad_input_without_500(client):
     create = client.post("/tasks/create", {"title": "x", "priority": "BOGUS"})
     assert create.status_code == 302  # redirect, not 500
 
-    transition = client.post(
-        f"/tasks/{task_id}/transition", {"target_status": "BOGUS"}
-    )
+    transition = client.post(f"/tasks/{task_id}/transition", {"target_status": "BOGUS"})
     assert transition.status_code == 302
 
     priority = client.post(f"/tasks/{task_id}/priority", {"priority": "BOGUS"})
@@ -179,9 +176,7 @@ def test_event_store_failure_rolls_back_state(client):
     events_before = DomainEventRecord.objects.count()
 
     inner = Client(raise_request_exception=False)
-    with patch.object(
-        DjangoEventStore, "append", side_effect=RuntimeError("boom")
-    ):
+    with patch.object(DjangoEventStore, "append", side_effect=RuntimeError("boom")):
         resp = inner.post(
             "/api/tasks/",
             data={"title": "should not persist"},

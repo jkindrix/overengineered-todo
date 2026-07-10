@@ -3,6 +3,7 @@
 These verify use-case orchestration and event publishing without a database,
 exercising the ports/adapters seam directly.
 """
+
 from __future__ import annotations
 
 from contextlib import nullcontext
@@ -22,7 +23,7 @@ from tasks.domain.exceptions import (
     IllegalStateTransitionError,
     TaskNotFoundError,
 )
-from tasks.domain.value_objects import Priority, TaskId, TaskStatus
+from tasks.domain.value_objects import Priority, TaskId
 
 
 class FakeRepository:
@@ -95,9 +96,7 @@ def wiring():
 
 def test_create_task_publishes_and_stores_created_event(wiring):
     service, captured, store = wiring
-    task = service.create_task(
-        CreateTaskCommand(title="Do the thing", priority="HIGH")
-    )
+    task = service.create_task(CreateTaskCommand(title="Do the thing", priority="HIGH"))
     assert task.priority is Priority.HIGH
     # Published to post-commit subscribers...
     assert any(e.name == "TaskCreated" for e in captured)

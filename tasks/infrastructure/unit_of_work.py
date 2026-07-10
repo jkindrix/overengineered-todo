@@ -5,6 +5,7 @@ written inside `atomic()` — the aggregate row and its event rows — commits a
 transaction, or rolls back together on any error. This is what makes state and
 audit history consistent (closes the divergence gap in ADR-0006 / ADR-0013).
 """
+
 from __future__ import annotations
 
 from contextlib import AbstractContextManager

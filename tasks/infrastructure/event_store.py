@@ -6,9 +6,11 @@ event rows are written in the same transaction as the aggregate — if either wr
 fails, both roll back. This replaces the previous fire-and-forget audit handler,
 whose swallowed failures could leave state and history inconsistent.
 """
+
 from __future__ import annotations
 
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 from tasks.domain.events import DomainEvent
 

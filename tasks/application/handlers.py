@@ -9,6 +9,7 @@ Durable audit persistence is deliberately NOT here — it is transactional and l
 in `infrastructure/event_store.py`, written inside the unit of work alongside the
 state change. See ADR-0013.
 """
+
 from __future__ import annotations
 
 import logging

@@ -3,6 +3,7 @@
 Keeps view/serializer code free of knowledge about the domain's internal value
 objects. A `Task` becomes a plain dict suitable for JSON or template context.
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -26,9 +27,7 @@ def present_task(task: Task) -> dict[str, Any]:
         "allowed_transitions": sorted(s.value for s in allowed_targets(task.status)),
         "created_at": task.created_at.isoformat(),
         "updated_at": task.updated_at.isoformat(),
-        "completed_at": (
-            task.completed_at.isoformat() if task.completed_at else None
-        ),
+        "completed_at": (task.completed_at.isoformat() if task.completed_at else None),
     }
 
 

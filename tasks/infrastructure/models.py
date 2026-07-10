@@ -4,6 +4,7 @@ These models are pure storage records. They are intentionally *not* the domain
 entities: the repository maps between `TaskRecord` rows and `Task` aggregates.
 Keeping them separate lets the domain evolve independently of the schema.
 """
+
 from __future__ import annotations
 
 import uuid

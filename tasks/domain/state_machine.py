@@ -3,6 +3,7 @@
 Centralizes the allowed status transitions so the rule lives in exactly one
 place. Both the domain entity and any diagnostic tooling consult this table.
 """
+
 from __future__ import annotations
 
 from .value_objects import TaskStatus
@@ -14,9 +15,7 @@ _ALLOWED_TRANSITIONS: dict[TaskStatus, frozenset[TaskStatus]] = {
         {TaskStatus.BLOCKED, TaskStatus.COMPLETED, TaskStatus.ARCHIVED}
     ),
     TaskStatus.BLOCKED: frozenset({TaskStatus.ACTIVE, TaskStatus.ARCHIVED}),
-    TaskStatus.COMPLETED: frozenset(
-        {TaskStatus.ACTIVE, TaskStatus.ARCHIVED}
-    ),
+    TaskStatus.COMPLETED: frozenset({TaskStatus.ACTIVE, TaskStatus.ARCHIVED}),
     TaskStatus.ARCHIVED: frozenset(),  # terminal
 }
 

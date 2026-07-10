@@ -8,6 +8,7 @@ Usage:
     python manage.py seed_tasks
     python manage.py seed_tasks --count 12 --wipe
 """
+
 from __future__ import annotations
 
 from django.core.management.base import BaseCommand
@@ -84,8 +85,7 @@ class Command(BaseCommand):
             deleted_events, _ = DomainEventRecord.objects.all().delete()
             self.stdout.write(
                 self.style.WARNING(
-                    f"Wiped {deleted_tasks} task rows and "
-                    f"{deleted_events} event rows."
+                    f"Wiped {deleted_tasks} task rows and {deleted_events} event rows."
                 )
             )
 
@@ -106,9 +106,7 @@ class Command(BaseCommand):
             )
             for target in transitions:
                 service.transition_task(
-                    TransitionTaskCommand(
-                        task_id=str(task.id), target_status=target
-                    )
+                    TransitionTaskCommand(task_id=str(task.id), target_status=target)
                 )
             created += 1
 

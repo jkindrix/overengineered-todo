@@ -14,12 +14,16 @@ Budget about 30 minutes. Read [ARCHITECTURE.md](ARCHITECTURE.md) alongside it.
 ```bash
 cd my-site
 
-# Create and activate a virtual environment
-python3 -m venv .venv
+# --- Recommended: uv (fast, uses pyproject.toml + uv.lock) ---
+uv sync                              # creates .venv and installs everything
 source .venv/bin/activate            # Windows: .venv\Scripts\activate
 
-# Install runtime + dev/test dependencies
-pip install -r requirements-dev.txt
+# --- Or plain pip (equivalent) ---
+# python3 -m venv .venv && source .venv/bin/activate
+# pip install -r requirements-dev.txt
+
+# (Optional) install git hooks that mirror CI
+pre-commit install
 
 # (Optional) create a local env file; the app also runs fine with none
 cp .env.example .env
@@ -31,6 +35,12 @@ python manage.py seed_tasks --wipe
 # Run
 python manage.py runserver
 ```
+
+Dependencies and all tool config live in `pyproject.toml` (the canonical source);
+`requirements*.txt` are a pip-friendly mirror. Quality tooling: **ruff** (lint +
+format), **mypy** (strict on the framework-free core), **pyright** (editor import
+resolution), **import-linter** (architecture contracts), **pytest** + **Hypothesis**.
+CI runs them all; `pre-commit run --all-files` runs them locally.
 
 Open:
 

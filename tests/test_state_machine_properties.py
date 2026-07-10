@@ -11,6 +11,7 @@ domain's invariants hold on every path Hypothesis can find:
 
 These are pure-domain tests — no database, no Django.
 """
+
 from __future__ import annotations
 
 import pytest

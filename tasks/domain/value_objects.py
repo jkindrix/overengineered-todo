@@ -3,6 +3,7 @@
 Value objects are immutable and compared by value. They encapsulate the small
 but meaningful vocabulary of the domain: priorities, statuses and identities.
 """
+
 from __future__ import annotations
 
 import enum
@@ -26,7 +27,7 @@ class Priority(enum.IntEnum):
         return self.name.title()
 
     @classmethod
-    def from_name(cls, name: str) -> "Priority":
+    def from_name(cls, name: str) -> Priority:
         # Raises a domain error (not ValueError) so untrusted input from any
         # transport surfaces as a catchable validation failure -> HTTP 400,
         # rather than escaping as an unhandled 500.
@@ -55,7 +56,7 @@ class TaskStatus(enum.Enum):
         return self in {TaskStatus.ARCHIVED}
 
     @classmethod
-    def from_value(cls, value: str) -> "TaskStatus":
+    def from_value(cls, value: str) -> TaskStatus:
         # See Priority.from_name: untrusted input yields a domain error, not a
         # bare ValueError, so it is caught and mapped to HTTP 400 uniformly.
         try:
@@ -71,13 +72,13 @@ class TaskId:
     value: uuid.UUID
 
     @classmethod
-    def new(cls) -> "TaskId":
+    def new(cls) -> TaskId:
         # uuid4 is used at the true edge of the system (identity minting), which
         # is one of the few legitimate homes for nondeterminism in the domain.
         return cls(uuid.uuid4())
 
     @classmethod
-    def parse(cls, raw: str | uuid.UUID) -> "TaskId":
+    def parse(cls, raw: str | uuid.UUID) -> TaskId:
         if isinstance(raw, uuid.UUID):
             return cls(raw)
         return cls(uuid.UUID(str(raw)))

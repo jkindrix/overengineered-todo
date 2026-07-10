@@ -6,6 +6,7 @@ from Django settings decide which subscribers are attached and whether the state
 machine is strictly enforced. Everything downstream receives its collaborators
 by injection rather than reaching for globals.
 """
+
 from __future__ import annotations
 
 import logging

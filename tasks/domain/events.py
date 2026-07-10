@@ -5,16 +5,17 @@ domain. Entities accumulate events as they change; the application layer drains
 and publishes them. Events carry primitive/serializable payloads so they can be
 logged, persisted (event sourcing) or shipped to a message bus unchanged.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 
 def _utcnow() -> datetime:
     """Timestamp helper. Isolated so tests can reason about it if needed."""
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,9 +34,7 @@ class DomainEvent:
         """Serializable attributes describing what happened (sans metadata)."""
         reserved = {"aggregate_id", "occurred_at"}
         return {
-            key: getattr(self, key)
-            for key in self.__slots__  # type: ignore[attr-defined]
-            if key not in reserved
+            key: getattr(self, key) for key in self.__slots__ if key not in reserved
         }
 
 

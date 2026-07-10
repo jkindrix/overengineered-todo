@@ -4,6 +4,7 @@ These express rule violations in domain terms. The interface layer is
 responsible for translating them into transport-appropriate responses (e.g.
 HTTP status codes) — the domain itself knows nothing about HTTP.
 """
+
 from __future__ import annotations
 
 
@@ -21,9 +22,7 @@ class IllegalStateTransitionError(DomainError):
     def __init__(self, *, current: str, requested: str) -> None:
         self.current = current
         self.requested = requested
-        super().__init__(
-            f"Cannot transition task from {current!r} to {requested!r}."
-        )
+        super().__init__(f"Cannot transition task from {current!r} to {requested!r}.")
 
 
 class TaskValidationError(DomainError):

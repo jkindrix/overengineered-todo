@@ -5,6 +5,7 @@ REST API uses — proving the layered design supports multiple transports. Uses
 Django's messages framework for user feedback and PRG (post/redirect/get) for
 mutating actions.
 """
+
 from __future__ import annotations
 
 from django.contrib import messages
@@ -57,7 +58,9 @@ def task_list_view(request: HttpRequest) -> HttpResponse:
         # the user, mirroring how the write actions handle bad input.
         messages.error(request, f"Ignored an invalid filter: {exc}")
         status = priority = None
-        query = ListTasksQuery(status=None, priority=None, search=search, order_by=order_by)
+        query = ListTasksQuery(
+            status=None, priority=None, search=search, order_by=order_by
+        )
         tasks = present_tasks(_service().list_tasks(query))
 
     context = {

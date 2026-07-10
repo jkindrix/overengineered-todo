@@ -6,11 +6,12 @@ isolated: its failure is logged and swallowed so one bad subscriber cannot break
 the others or the originating use case. This is an application concern, so the
 bus lives here and is exposed to the domain only via the EventPublisher port.
 """
+
 from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from typing import Callable, Sequence, Type
+from collections.abc import Callable, Sequence
 
 from tasks.domain.events import DomainEvent
 
@@ -23,11 +24,9 @@ class InMemoryEventBus:
     """Register handlers per event type and dispatch synchronously."""
 
     def __init__(self) -> None:
-        self._handlers: dict[Type[DomainEvent], list[Handler]] = defaultdict(
-            list
-        )
+        self._handlers: dict[type[DomainEvent], list[Handler]] = defaultdict(list)
 
-    def subscribe(self, event_type: Type[DomainEvent], handler: Handler) -> None:
+    def subscribe(self, event_type: type[DomainEvent], handler: Handler) -> None:
         self._handlers[event_type].append(handler)
 
     def publish(self, event: DomainEvent) -> None:

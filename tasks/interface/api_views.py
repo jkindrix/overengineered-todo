@@ -4,6 +4,7 @@ A thin HTTP adapter over the application service. Each endpoint validates input
 with a serializer, builds a command/query DTO, delegates to the service, and
 renders the result through a presenter. No business logic lives here.
 """
+
 from __future__ import annotations
 
 from rest_framework import status
@@ -61,18 +62,16 @@ class TaskViewSet(ViewSet):
         # Honor the project-wide PAGE_SIZE (DRF settings) with a standard
         # count/next/previous/results envelope. `?page=` selects the page.
         paginator = PageNumberPagination()
-        page = paginator.paginate_queryset(tasks, request, view=self)
+        # paginate_queryset is typed for a Django QuerySet, but at runtime it
+        # accepts any sliceable sequence — which our list of domain entities is.
+        page = paginator.paginate_queryset(tasks, request, view=self)  # pyright: ignore[reportArgumentType]
         return paginator.get_paginated_response(present_tasks(page))
 
     def create(self, request: Request) -> Response:
         serializer = CreateTaskSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        task = self.service.create_task(
-            CreateTaskCommand(**serializer.validated_data)
-        )
-        return Response(
-            present_task(task), status=status.HTTP_201_CREATED
-        )
+        task = self.service.create_task(CreateTaskCommand(**serializer.validated_data))
+        return Response(present_task(task), status=status.HTTP_201_CREATED)
 
     def retrieve(self, request: Request, pk: str) -> Response:
         task = self.service.get_task(GetTaskQuery(task_id=pk))

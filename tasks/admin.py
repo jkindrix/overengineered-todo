@@ -1,4 +1,5 @@
 """Django admin registration for the storage records."""
+
 from __future__ import annotations
 
 from django.contrib import admin

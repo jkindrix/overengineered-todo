@@ -4,6 +4,7 @@ Commands express an intent to change state; queries express an intent to read.
 Both are plain, immutable data carriers so the transport layer (DRF, web views,
 management commands, tests) can construct them without touching the domain.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

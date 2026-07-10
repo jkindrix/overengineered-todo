@@ -4,10 +4,12 @@ These are the seams that keep the application layer ignorant of infrastructure.
 Concrete adapters (Django repositories, the in-memory event bus, etc.) implement
 these protocols and are injected via the container.
 """
+
 from __future__ import annotations
 
+from collections.abc import Sequence
 from contextlib import AbstractContextManager
-from typing import Protocol, Sequence, runtime_checkable
+from typing import Protocol, runtime_checkable
 
 from tasks.domain.entities import Task
 from tasks.domain.events import DomainEvent
@@ -20,15 +22,19 @@ class TaskRepository(Protocol):
 
     def add(self, task: Task) -> None:
         """Persist a newly created aggregate."""
+        ...
 
     def get(self, task_id: TaskId) -> Task:
         """Load an aggregate by identity, or raise TaskNotFoundError."""
+        ...
 
     def save(self, task: Task) -> None:
         """Persist changes to an existing aggregate."""
+        ...
 
     def delete(self, task_id: TaskId) -> None:
         """Remove an aggregate from storage."""
+        ...
 
     def list(
         self,
@@ -39,6 +45,7 @@ class TaskRepository(Protocol):
         order_by: str = "-created_at",
     ) -> Sequence[Task]:
         """Return aggregates matching the given filters."""
+        ...
 
 
 @runtime_checkable
@@ -52,6 +59,7 @@ class UnitOfWork(Protocol):
 
     def atomic(self) -> AbstractContextManager[None]:
         """Return a context manager that commits on success, rolls back on error."""
+        ...
 
 
 @runtime_checkable
@@ -65,6 +73,7 @@ class EventStore(Protocol):
 
     def append(self, events: Sequence[DomainEvent]) -> None:
         """Persist a batch of events. Called inside a unit of work."""
+        ...
 
 
 @runtime_checkable
@@ -77,6 +86,8 @@ class EventPublisher(Protocol):
 
     def publish(self, event: DomainEvent) -> None:
         """Dispatch a single event to all matching handlers."""
+        ...
 
     def publish_all(self, events: Sequence[DomainEvent]) -> None:
         """Dispatch a batch of events in order."""
+        ...

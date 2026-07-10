@@ -47,9 +47,9 @@ after is trustworthy.
 
 **Phase 2 — Clean under its own tooling** — a teaching repo must pass its own
 linters. *Order within the phase matters:* packaging first (it's the config home).
-- [ ] #14 — `pyproject.toml` (PEP 621) + `uv` ⚙️ M *(do first)*
-- [ ] #12 — pyright config + `mypy --strict` ⚙️ M
-- [ ] #13 — `ruff` + `pre-commit` ⚙️ S
+- [x] #14 — `pyproject.toml` (PEP 621) + `uv` ⚙️ M — canonical config home, `uv.lock`, pytest migrated off `pytest.ini`
+- [x] #12 — pyright config + `mypy --strict` (core) ⚙️ M — pyright resolves imports (0 errors); mypy strict on domain+application; both in CI/pre-commit
+- [x] #13 — `ruff` + `pre-commit` ⚙️ S — ruff lint+format (whole tree), `.pre-commit-config.yaml`, CI lint step
 - [ ] #15 — CI matrix (py 3.11–3.13 × Django 5.2/6.0) ⚙️ S
 - [ ] #16 — coverage gate + Codecov ⚙️ S
 - [ ] #17 — security scanning (bandit/pip-audit/CodeQL/Dependabot) ⚙️ M

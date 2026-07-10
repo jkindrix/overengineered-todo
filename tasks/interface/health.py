@@ -3,6 +3,7 @@
 Reports process health plus a quick database round-trip and the active feature
 flags. Returns 200 when healthy and 503 when a dependency check fails.
 """
+
 from __future__ import annotations
 
 from django.conf import settings

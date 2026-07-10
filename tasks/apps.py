@@ -1,4 +1,5 @@
 """App configuration and composition-root bootstrapping."""
+
 from __future__ import annotations
 
 import logging

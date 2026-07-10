@@ -1,10 +1,11 @@
 """URL routing for the tasks interface layer (REST API + web UI)."""
+
 from __future__ import annotations
 
 from django.urls import path
 
-from .api_views import TaskViewSet
 from . import web_views
+from .api_views import TaskViewSet
 
 # Manually bind the ViewSet's actions to routes. A router would also work, but
 # explicit wiring keeps the API surface obvious and greppable.

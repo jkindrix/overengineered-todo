@@ -4,6 +4,7 @@ The domain raises transport-agnostic errors; this handler maps them onto the
 appropriate HTTP status codes so the API speaks correct HTTP without the domain
 ever importing `rest_framework`.
 """
+
 from __future__ import annotations
 
 from rest_framework import status

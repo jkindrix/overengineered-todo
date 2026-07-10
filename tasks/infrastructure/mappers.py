@@ -3,6 +3,7 @@
 The repository uses these to cross the boundary in both directions without
 leaking ORM types into the domain or domain types into queries.
 """
+
 from __future__ import annotations
 
 from tasks.domain.entities import Task

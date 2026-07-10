@@ -5,11 +5,11 @@ Configuration is environment-driven (twelve-factor style) with safe local
 defaults so the project runs out of the box with SQLite and no external
 services. See `.env.example` for every value the application reads.
 """
+
 from __future__ import annotations
 
 import os
 from pathlib import Path
-
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -236,9 +236,7 @@ if not DEBUG:
     # effectively one-way. They are therefore env-tunable so an operator can dial
     # the window down (or to 0) until the entire domain is confidently HTTPS-only.
     SECURE_HSTS_SECONDS = int(os.environ.get("DJANGO_HSTS_SECONDS", 31_536_000))
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = env_bool(
-        "DJANGO_HSTS_INCLUDE_SUBDOMAINS", True
-    )
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = env_bool("DJANGO_HSTS_INCLUDE_SUBDOMAINS", True)
     SECURE_HSTS_PRELOAD = env_bool("DJANGO_HSTS_PRELOAD", True)
 
     # Secure-only cookies.

@@ -25,6 +25,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
 
+      - name: Lint (ruff)
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Type check (mypy, strict core)
+        run: mypy tasks/domain tasks/application
+
       - name: System check
         run: python manage.py check
 

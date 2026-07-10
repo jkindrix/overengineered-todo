@@ -4,6 +4,7 @@ Responses are rendered by presenters (plain dicts), so these serializers focus
 on *input* validation. The domain enums are the single source of truth for the
 allowed choices.
 """
+
 from __future__ import annotations
 
 from rest_framework import serializers
@@ -40,6 +41,4 @@ class ChangePrioritySerializer(serializers.Serializer):
 
 
 class TransitionSerializer(serializers.Serializer):
-    target_status = serializers.ChoiceField(
-        choices=[s.value for s in TaskStatus]
-    )
+    target_status = serializers.ChoiceField(choices=[s.value for s in TaskStatus])
