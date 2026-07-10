@@ -50,9 +50,9 @@ linters. *Order within the phase matters:* packaging first (it's the config home
 - [x] #14 — `pyproject.toml` (PEP 621) + `uv` ⚙️ M — canonical config home, `uv.lock`, pytest migrated off `pytest.ini`
 - [x] #12 — pyright config + `mypy --strict` (core) ⚙️ M — pyright resolves imports (0 errors); mypy strict on domain+application; both in CI/pre-commit
 - [x] #13 — `ruff` + `pre-commit` ⚙️ S — ruff lint+format (whole tree), `.pre-commit-config.yaml`, CI lint step
-- [ ] #15 — CI matrix (py 3.11–3.13 × Django 5.2/6.0) ⚙️ S
-- [ ] #16 — coverage gate + Codecov ⚙️ S
-- [ ] #17 — security scanning (bandit/pip-audit/CodeQL/Dependabot) ⚙️ M
+- [x] #15 — CI matrix (py 3.11–3.13 × Django 5.2; 6.0 experimental) ⚙️ S — `quality` + matrixed `test` jobs
+- [x] #16 — coverage gate + Codecov ⚙️ S — `fail_under=80` (branch cov), Codecov upload + badge
+- [x] #17 — security scanning (bandit/pip-audit/CodeQL/Dependabot) ⚙️ M — + fixed 2 CVEs (pytest, python-dotenv)
 - [ ] #18 — Docker + compose + devcontainer ⚙️ M
 - [ ] #19 — conventional commits + semantic-release + CHANGELOG ⚙️ M
 

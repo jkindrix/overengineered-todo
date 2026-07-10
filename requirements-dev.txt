@@ -3,8 +3,8 @@
 # The modern path is `uv sync` (installs the [dependency-groups] dev group from
 # pyproject.toml + uv.lock). This file mirrors that group for pip users and CI.
 -r requirements.txt
-pytest==8.2.2
-pytest-django==4.8.0
+pytest==9.0.3
+pytest-django>=4.9,<5
 pytest-cov>=5.0
 # Architecture enforcement: fail CI if the layer dependency rule is violated.
 import-linter>=2.0,<3.0
@@ -19,3 +19,6 @@ djangorestframework-stubs[compatible-mypy]>=3.15
 pyright>=1.1.380
 # Git hooks.
 pre-commit>=3.7
+# Security scanning.
+bandit>=1.7
+pip-audit>=2.7

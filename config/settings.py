@@ -41,7 +41,9 @@ def env_list(name: str, default: str = "") -> list[str]:
 # ---------------------------------------------------------------------------
 # The insecure fallback exists solely so the app runs out of the box locally.
 # A boot guard (below) refuses to start with it once DEBUG is off.
-INSECURE_DEFAULT_SECRET_KEY = "dev-insecure-change-me-0123456789abcdef"
+# Intentionally-insecure local dev default; the boot guard below refuses to
+# start with this value when DEBUG is off (hence the bandit suppression).
+INSECURE_DEFAULT_SECRET_KEY = "dev-insecure-change-me-0123456789abcdef"  # nosec B105
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", INSECURE_DEFAULT_SECRET_KEY)
 DEBUG = env_bool("DJANGO_DEBUG", True)
