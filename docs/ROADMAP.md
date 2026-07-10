@@ -67,7 +67,7 @@ teaching goal without it.)*
 - [ ] #10 — chapter branches ⭐ L — **deferred** (issue open); large staged-history effort, revisit as its own focused task
 
 **Phase 4 — Over-engineering showcase** — deliberate, each with an ROI note.
-- [ ] #23 — hash-chained tamper-evident audit log 🎭⭐ M *(self-contained; do first)*
+- [x] #23 — hash-chained tamper-evident audit log 🎭⭐ M — SHA-256 chain in the event store + `verify_audit_log` command + [ADR-0014](adr/0014-tamper-evident-audit-log.md)
 - [ ] #20 — transactional outbox + relay + idempotency ⚙️🎭 L
 - [ ] #24 — TLA+/Alloy spec, model-checked in CI 🎭⭐ L
 - [ ] #22 — real event sourcing (replay/snapshots/versioning) 🎭 L

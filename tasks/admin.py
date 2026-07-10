@@ -27,6 +27,8 @@ class DomainEventRecordAdmin(admin.ModelAdmin):
         "occurred_at",
         "payload",
         "recorded_at",
+        "prev_hash",
+        "entry_hash",
     )
     ordering = ("-id",)
 

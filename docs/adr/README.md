@@ -31,6 +31,7 @@ Context, Decision, Consequences, Alternatives considered, Related.
 | [0011](0011-infrastructure-sqlite-config.md) | SQLite, model location, and env-driven config | Accepted |
 | [0012](0012-testing-strategy.md) | Test in three tiers matching the layers | Accepted |
 | [0013](0013-transactional-unit-of-work-event-store.md) | Atomic state + events via a Unit of Work and Event Store | Accepted |
+| [0014](0014-tamper-evident-audit-log.md) | Tamper-evident audit log via a hash chain | Accepted |
 
 ## Conventions
 

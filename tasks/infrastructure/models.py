@@ -59,6 +59,11 @@ class DomainEventRecord(models.Model):
     occurred_at = models.DateTimeField()
     payload = models.JSONField(default=dict)
     recorded_at = models.DateTimeField(auto_now_add=True)
+    # Tamper-evident hash chain (SHA-256 hex). Each row's entry_hash seals its
+    # content to the previous row's, so any edit/deletion of history is
+    # detectable via `manage.py verify_audit_log`. See ADR-0014.
+    prev_hash = models.CharField(max_length=64, blank=True, default="")
+    entry_hash = models.CharField(max_length=64, blank=True, default="")
 
     class Meta:
         app_label = "tasks"

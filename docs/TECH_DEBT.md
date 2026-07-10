@@ -87,6 +87,15 @@ Django developers. See [ADR-0011](adr/0011-infrastructure-sqlite-config.md).
 typed way and unvalidated at the DB layer. Acceptable for an audit log; a
 reporting requirement would motivate a typed projection.
 
+## 10. Audit log is tamper-*evident*, not tamper-*proof*
+
+The hash chain ([ADR-0014](adr/0014-tamper-evident-audit-log.md)) detects edits and
+deletions but does not prevent them: an attacker with write access can alter a row
+and recompute the rest of the chain. Making it tamper-*resistant* needs a secret
+the attacker lacks (HMAC-signed chain) or write-once storage. Also, chained appends
+are serialized — fine on SQLite, but concurrent writers on PostgreSQL would need
+row-locking. Both are conscious trade-offs for a demonstration.
+
 ## The meta-point
 
 Most of this register exists because the app applies enterprise patterns to a
