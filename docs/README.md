@@ -22,6 +22,7 @@ way it is, so maintainers can change it safely.
 | Follow one request through every layer (annotated) | [code-tour.md](code-tour.md) |
 | See the state machine verified 3 ways (tests → property → TLA+) | [verified-three-ways.md](verified-three-ways.md) |
 | Understand the event-sourcing demonstration (replay/snapshots) | [event-sourcing.md](event-sourcing.md) |
+| Understand the CQRS read-model projection | [cqrs.md](cqrs.md) |
 | Add a feature or fix a bug the "right" way | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Know *why* a decision was made (and what we rejected) | [adr/](adr/README.md) |
 | See known weaknesses and deferred work | [TECH_DEBT.md](TECH_DEBT.md) |

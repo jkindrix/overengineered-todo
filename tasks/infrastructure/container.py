@@ -21,12 +21,14 @@ from tasks.domain.events import (
     TaskArchived,
     TaskCompleted,
     TaskCreated,
+    TaskDeleted,
     TaskDetailsEdited,
     TaskPriorityChanged,
     TaskStatusChanged,
 )
 
 from .event_store import DjangoEventStore
+from .projections import StatisticsProjector, TaskStatisticsQuery
 from .repositories import DjangoTaskRepository
 from .unit_of_work import DjangoUnitOfWork
 
@@ -40,6 +42,7 @@ _ALL_EVENT_TYPES = (
     TaskPriorityChanged,
     TaskCompleted,
     TaskArchived,
+    TaskDeleted,
 )
 
 
@@ -60,6 +63,13 @@ class Container:
             logging_handler = LoggingEventHandler()
             for event_type in _ALL_EVENT_TYPES:
                 self.event_bus.subscribe(event_type, logging_handler)
+
+        # CQRS read-model projector (post-commit → eventually consistent). See
+        # ADR-0017; rebuild with `manage.py rebuild_projections` if it drifts.
+        self.statistics_query = TaskStatisticsQuery()
+        stats_projector = StatisticsProjector()
+        for event_type in _ALL_EVENT_TYPES:
+            self.event_bus.subscribe(event_type, stats_projector)
 
         self.task_service = TaskApplicationService(
             repository=self.repository,

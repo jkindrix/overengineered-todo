@@ -8,6 +8,7 @@ from tasks.infrastructure.models import (
     DomainEventRecord,
     TaskRecord,
     TaskSnapshot,
+    TaskStatistics,
 )
 
 
@@ -47,3 +48,12 @@ class TaskSnapshotAdmin(admin.ModelAdmin):
     search_fields = ("aggregate_id",)
     readonly_fields = ("aggregate_id", "last_event_id", "state", "created_at")
     ordering = ("-id",)
+
+
+@admin.register(TaskStatistics)
+class TaskStatisticsAdmin(admin.ModelAdmin):
+    list_display = ("status", "count")
+    readonly_fields = ("status", "count")
+
+    def has_add_permission(self, request) -> bool:
+        return False  # maintained by the projector, not by hand

@@ -9,6 +9,7 @@ proves state is fully derivable from events, and enables time-travel and snapsho
 from __future__ import annotations
 
 from tasks.domain.entities import Task
+from tasks.domain.events import TaskDeleted
 from tasks.domain.exceptions import TaskNotFoundError
 from tasks.domain.value_objects import TaskId
 
@@ -34,6 +35,9 @@ class EventSourcedTaskRepository:
         if snapshot is not None:
             rows = rows.filter(id__gt=snapshot.last_event_id)
         events = [self._to_event(r) for r in rows.order_by("id")]
+
+        if events and isinstance(events[-1], TaskDeleted):
+            raise TaskNotFoundError(f"Task {task_id} was deleted.")
 
         if snapshot is None:
             if not events:

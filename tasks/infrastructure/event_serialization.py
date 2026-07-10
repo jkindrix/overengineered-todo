@@ -17,6 +17,7 @@ from tasks.domain.events import (
     TaskArchived,
     TaskCompleted,
     TaskCreated,
+    TaskDeleted,
     TaskDetailsEdited,
     TaskPriorityChanged,
     TaskStatusChanged,
@@ -36,6 +37,7 @@ _EVENT_TYPES: dict[str, type[DomainEvent]] = {
         TaskPriorityChanged,
         TaskCompleted,
         TaskArchived,
+        TaskDeleted,
     )
 }
 

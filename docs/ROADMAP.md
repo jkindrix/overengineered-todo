@@ -71,7 +71,7 @@ teaching goal without it.)*
 - [ ] #20 — transactional outbox + relay + idempotency ⚙️🎭 L — **deferred**, to be built with #33 (needs an external consumer to be meaningful)
 - [x] #24 — TLA+ spec, model-checked in CI 🎭⭐ L — `spec/TaskLifecycle.tla` + TLC CI job + [ADR-0015](adr/0015-formal-spec-tla-plus.md) + [verified 3 ways](verified-three-ways.md)
 - [x] #22 — event sourcing (replay/snapshots/versioning) 🎭 L — Option B: `Task.rebuild`/`_apply` + `EventSourcedTaskRepository` + snapshots + upcasting, alongside the state table ([ADR-0016](adr/0016-event-sourcing.md), [docs](event-sourcing.md))
-- [ ] #21 — full CQRS (read models/projections) 🎭 L
+- [x] #21 — CQRS (read models/projections) 🎭 L — Option B: `TaskStatistics` projection + `StatisticsProjector` + `rebuild_projections`; also added `TaskDeleted` event ([ADR-0017](adr/0017-cqrs-read-model.md), [docs](cqrs.md))
 - [ ] #26 — gRPC/GraphQL adapter 🎭 M
 - [ ] #25 — polyglot port 🎭⭐ L *(largest; last)*
 

@@ -173,6 +173,14 @@ class Task:
     def archive(self) -> None:
         self.transition_to(TaskStatus.ARCHIVED)
 
+    def mark_deleted(self) -> None:
+        """Record that the task was hard-deleted (so the history — and any
+        event-fed read model — reflects the deletion). Emits TaskDeleted."""
+        self._touch()
+        self._record(
+            ev.TaskDeleted(aggregate_id=str(self.id), status=self.status.value)
+        )
+
     # -- Event plumbing ------------------------------------------------------
     def pull_events(self) -> list[ev.DomainEvent]:
         """Return and clear the pending events (drained after persistence)."""
@@ -228,7 +236,8 @@ class Task:
                 self.completed_at = None
         elif isinstance(event, ev.TaskPriorityChanged):
             self.priority = Priority[event.to_priority]
-        # TaskCompleted / TaskArchived carry no state beyond TaskStatusChanged.
+        # TaskCompleted / TaskArchived / TaskDeleted carry no state beyond what
+        # earlier events set (a deleted task is detected by the repository).
         self.updated_at = event.occurred_at
 
     # -- Internal helpers ----------------------------------------------------

@@ -102,3 +102,21 @@ class TaskSnapshot(models.Model):
 
     def __str__(self) -> str:  # pragma: no cover - display helper
         return f"snapshot({self.aggregate_id}@{self.last_event_id})"
+
+
+class TaskStatistics(models.Model):
+    """A CQRS read model (projection): one row per status holding a live count.
+
+    Maintained by a projector that consumes domain events — a denormalized,
+    query-optimized view separate from the write model (TaskRecord). See ADR-0017.
+    """
+
+    status = models.CharField(max_length=20, primary_key=True)
+    count = models.IntegerField(default=0)
+
+    class Meta:
+        app_label = "tasks"
+        db_table = "tasks_stats_by_status"
+
+    def __str__(self) -> str:  # pragma: no cover - display helper
+        return f"{self.status}={self.count}"

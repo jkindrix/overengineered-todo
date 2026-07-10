@@ -6,12 +6,13 @@ import pytest
 
 from tasks.application.dto import (
     CreateTaskCommand,
+    DeleteTaskCommand,
     EditTaskCommand,
     TransitionTaskCommand,
 )
 from tasks.domain.entities import Task
 from tasks.domain.events import TaskStatusChanged
-from tasks.domain.exceptions import TaskValidationError
+from tasks.domain.exceptions import TaskNotFoundError, TaskValidationError
 from tasks.domain.value_objects import TaskStatus
 from tasks.infrastructure.container import get_task_service
 from tasks.infrastructure.event_serialization import upcast
@@ -106,6 +107,25 @@ def test_upcast_adds_missing_description_to_v1_created():
     # Current-version payloads pass through unchanged.
     v2 = {"title": "x", "description": "d", "priority": "NORMAL", "status": "draft"}
     assert upcast("TaskCreated", 2, v2) == v2
+
+
+@pytest.mark.django_db
+def test_deleted_task_not_reconstructable_but_time_travel_works():
+    svc = get_task_service()
+    task = svc.create_task(CreateTaskCommand(title="doomed"))
+    svc.transition_task(
+        TransitionTaskCommand(task_id=str(task.id), target_status="active")
+    )
+    ids = _event_ids(task.id)
+    svc.delete_task(DeleteTaskCommand(task_id=str(task.id)))
+
+    repo = EventSourcedTaskRepository()
+    # Its *current* state is "deleted" — so a plain load reports not-found.
+    with pytest.raises(TaskNotFoundError):
+        repo.get(task.id)
+    # But we can still time-travel to before it was deleted (deletions are events).
+    past = repo.reconstitute_at(task.id, ids[1])
+    assert past.status is TaskStatus.ACTIVE
 
 
 def test_rebuild_requires_created_first():

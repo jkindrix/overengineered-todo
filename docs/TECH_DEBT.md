@@ -114,6 +114,15 @@ but then every query needs a **projection**, i.e. it forces **CQRS (#21)**.
 Reconstruction also matches on business state, not exact timestamps (those are
 event-derived). Kept as a demonstration; the genuine payoff is undo/redo (#32).
 
+## 13. Three representations of task data (CQRS)
+
+With the CQRS read model ([ADR-0017](adr/0017-cqrs-read-model.md)) a task now exists
+in **three** places: the write table (`TaskRecord`), the event stream, and the
+`TaskStatistics` projection — for a to-do list. The projection is also *eventually
+consistent* (the projector runs post-commit, and the bus swallows subscriber
+failures), so it can briefly lag or drift; `rebuild_projections` heals it. Kept as a
+demonstration; the app still reads counts from the write model.
+
 ## The meta-point
 
 Most of this register exists because the app applies enterprise patterns to a

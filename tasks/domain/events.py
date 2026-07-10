@@ -76,3 +76,10 @@ class TaskCompleted(DomainEvent):
 @dataclass(frozen=True, slots=True)
 class TaskArchived(DomainEvent):
     pass
+
+
+@dataclass(frozen=True, slots=True)
+class TaskDeleted(DomainEvent):
+    # The status at deletion time, so read-model projections can decrement the
+    # right bucket without tracking per-aggregate state.
+    status: str = ""

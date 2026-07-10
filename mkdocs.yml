@@ -61,6 +61,7 @@ nav:
       - Code tour: code-tour.md
       - Verified three ways: verified-three-ways.md
       - Event sourcing: event-sourcing.md
+      - CQRS: cqrs.md
       - Tech debt: TECH_DEBT.md
       - Roadmap: ROADMAP.md
   - API reference:
@@ -85,3 +86,4 @@ nav:
       - 0014 Tamper-evident audit log: adr/0014-tamper-evident-audit-log.md
       - 0015 Formal spec (TLA+): adr/0015-formal-spec-tla-plus.md
       - 0016 Event sourcing: adr/0016-event-sourcing.md
+      - 0017 CQRS read model: adr/0017-cqrs-read-model.md

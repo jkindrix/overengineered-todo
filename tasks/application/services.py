@@ -87,12 +87,17 @@ class TaskApplicationService:
         return task
 
     def delete_task(self, command: DeleteTaskCommand) -> None:
-        task_id = TaskId.parse(command.task_id)
+        # Load first so a missing task raises TaskNotFoundError consistently, and
+        # so the deletion is recorded as an event (history + read models see it).
+        task = self._repository.get(TaskId.parse(command.task_id))
+        task.mark_deleted()
         with self._uow.atomic():
-            # get() first so a missing task raises TaskNotFoundError consistently.
-            self._repository.get(task_id)
-            self._repository.delete(task_id)
-        logger.info("Deleted task %s", task_id)
+            self._repository.delete(task.id)
+            events = task.pull_events()
+            if self._event_sourcing and events:
+                self._event_store.append(events)
+        self._dispatch(events)
+        logger.info("Deleted task %s", task.id)
 
     # -- Queries -------------------------------------------------------------
     def get_task(self, query: GetTaskQuery) -> Task:
