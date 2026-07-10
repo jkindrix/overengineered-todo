@@ -28,6 +28,9 @@ jobs:
       - name: System check
         run: python manage.py check
 
+      - name: Architecture contracts (import-linter)
+        run: lint-imports
+
       - name: Verify migrations are up to date
         run: python manage.py makemigrations --check --dry-run
 

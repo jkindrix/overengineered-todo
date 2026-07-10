@@ -1,0 +1,40 @@
+# Architecture enforcement (import-linter).
+#
+# These contracts make the hexagonal dependency rule a CI-checked guarantee
+# rather than a convention. Run locally with `lint-imports`; CI runs it too.
+# See docs/ARCHITECTURE.md and docs/adr/0002-layered-hexagonal-architecture.md.
+
+[importlinter]
+root_package = tasks
+# Required because the forbidden contracts reference external packages
+# (django, rest_framework).
+include_external_packages = True
+
+[importlinter:contract:layers]
+name = Layered architecture: interface > infrastructure > application > domain
+type = layers
+layers =
+    tasks.interface
+    tasks.infrastructure
+    tasks.application
+    tasks.domain
+
+[importlinter:contract:domain-is-framework-free]
+name = The domain imports no framework (no Django, no DRF)
+type = forbidden
+source_modules =
+    tasks.domain
+forbidden_modules =
+    django
+    rest_framework
+
+[importlinter:contract:application-is-framework-and-infra-free]
+name = The application depends only inward (no Django, DRF, infrastructure, or interface)
+type = forbidden
+source_modules =
+    tasks.application
+forbidden_modules =
+    django
+    rest_framework
+    tasks.infrastructure
+    tasks.interface

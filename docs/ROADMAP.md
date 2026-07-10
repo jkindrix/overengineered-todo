@@ -41,7 +41,7 @@ Check items off as they land; a completed item links to its merge commit.
 **Phase 1 — Self-enforcement** — turn architectural *claims* into CI-checked
 *guarantees*. Highest leverage, lowest risk; do first so everything after is
 trustworthy.
-- [ ] #5 — import-linter: enforce the hexagonal dependency rule ⭐⚙️ M
+- [x] #5 — import-linter: enforce the hexagonal dependency rule ⭐⚙️ M — `.importlinter` (3 contracts) + CI step
 - [ ] #6 — Hypothesis: property-based state-machine tests ⭐⚙️ M
 
 **Phase 2 — Clean under its own tooling** — a teaching repo must pass its own

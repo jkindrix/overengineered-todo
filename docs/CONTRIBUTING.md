@@ -7,7 +7,9 @@ How to change this codebase without eroding its structure. Read
 
 1. **The domain imports no framework.** Nothing under `tasks/domain/` may import
    Django, the ORM, DRF, or any of `application/`, `infrastructure/`, `interface/`.
-   If you need one of those, the code belongs in a different layer.
+   If you need one of those, the code belongs in a different layer. **This rule is
+   enforced** — `import-linter` checks it in CI; run `lint-imports` locally. The
+   contracts live in `.importlinter`; violating the layering fails the build.
 2. **Business rules live in the domain.** A rule ("you can't complete a draft",
    "completing sets `completed_at`") goes in the aggregate or the state machine —
    never in a view, serializer, or repository.

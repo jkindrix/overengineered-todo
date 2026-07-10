@@ -2,3 +2,7 @@
 -r requirements.txt
 pytest==8.2.2
 pytest-django==4.8.0
+# Architecture enforcement: fail CI if the layer dependency rule is violated.
+import-linter>=2.0,<3.0
+# Property-based testing of the domain (e.g. the state machine).
+hypothesis>=6.100,<7.0
