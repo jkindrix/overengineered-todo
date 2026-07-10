@@ -7,6 +7,24 @@ by hand. Releases are cut by `.github/workflows/release.yml` on pushes to `main`
 
 <!-- version list -->
 
+## v1.2.0 (2026-07-10)
+
+### Documentation
+
+- **roadmap**: Defer #20 (outbox) to be built with #33 (webhooks)
+  ([`00c014f`](https://github.com/jkindrix/overengineered-todo/commit/00c014f1eaaa6ee6764d2424a3ca360d3963d0fc))
+
+### Features
+
+- Event sourcing demonstration (replay, snapshots, versioning)
+  ([`8f8c643`](https://github.com/jkindrix/overengineered-todo/commit/8f8c643786a04a981268b769f24e3c537562626d))
+
+### Testing
+
+- Formally verify the state machine with TLA+ (TLC in CI)
+  ([`39cccc7`](https://github.com/jkindrix/overengineered-todo/commit/39cccc7595fcd4c9950dadf100c052c2d09fb377))
+
+
 ## v1.1.0 (2026-07-10)
 
 ### Chores
