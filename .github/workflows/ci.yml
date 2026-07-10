@@ -42,6 +42,9 @@ jobs:
       - name: Deploy security check (production posture)
         run: DJANGO_DEBUG=False DJANGO_ALLOWED_HOSTS=example.com python manage.py check --deploy --fail-level WARNING
 
+      - name: Docs build (strict)
+        run: mkdocs build --strict
+
   test:
     name: Tests (py${{ matrix.python }} / Django ${{ matrix.django }})
     runs-on: ubuntu-latest

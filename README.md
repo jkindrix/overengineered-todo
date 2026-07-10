@@ -6,6 +6,7 @@
 [![Python 3.11–3.13](https://img.shields.io/badge/python-3.11%E2%80%933.13-blue)](https://www.python.org/)
 [![Django 5.2 LTS](https://img.shields.io/badge/django-5.2%20LTS-092e20)](https://www.djangoproject.com/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Docs](https://img.shields.io/badge/docs-mkdocs--material-526cfe)](https://jkindrix.github.io/overengineered-todo/)
 
 A humble to-do list that took itself far too seriously.
 

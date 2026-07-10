@@ -3,7 +3,7 @@
 The single most useful thing this repository can teach is *what all the patterns
 cost*. So here is the same to-do app twice.
 
-- **The 50-line version:** [`examples/fifty_lines.py`](../examples/fifty_lines.py)
+- **The 50-line version:** [`examples/fifty_lines.py`](https://github.com/jkindrix/overengineered-todo/blob/main/examples/fifty_lines.py)
   — **67 non-blank lines, one file.** Create, list, toggle, delete. It runs:
 
   ```bash

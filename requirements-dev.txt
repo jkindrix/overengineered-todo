@@ -24,3 +24,6 @@ bandit>=1.7
 pip-audit>=2.7
 # Automated versioning + changelog + releases.
 python-semantic-release>=9.8
+# Docs site.
+mkdocs-material>=9.5
+mkdocstrings[python]>=0.26

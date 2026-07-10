@@ -39,6 +39,9 @@ dev = [
     "pip-audit>=2.7",
     # Automated versioning + changelog + GitHub releases.
     "python-semantic-release>=9.8",
+    # Docs site.
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.26",
 ]
 
 # This is an application, not a distributable library: uv manages the venv but

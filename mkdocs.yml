@@ -1,0 +1,82 @@
+site_name: Overly-Engineered TODO
+site_description: A deliberately over-engineered local Django TODO app — a teaching reference for architectural trade-off literacy.
+repo_url: https://github.com/jkindrix/overengineered-todo
+repo_name: jkindrix/overengineered-todo
+docs_dir: docs
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["."]
+          options:
+            show_source: false
+            show_root_heading: true
+            heading_level: 3
+            members_order: source
+
+nav:
+  - Home: README.md
+  - The point (50 lines vs. this): fifty-lines-vs-this.md
+  - Tutorial (onboarding): ONBOARDING.md
+  - How-to (contributing): CONTRIBUTING.md
+  - Explanation:
+      - Architecture: ARCHITECTURE.md
+      - Diagrams (C4): architecture-diagrams.md
+      - Code tour: code-tour.md
+      - Tech debt: TECH_DEBT.md
+      - Roadmap: ROADMAP.md
+  - API reference:
+      - Domain: reference/domain.md
+      - Application: reference/application.md
+  - Decisions (ADRs):
+      - Overview: adr/README.md
+      - ADR template: adr/_template.md
+      - 0001 Record decisions: adr/0001-record-architecture-decisions.md
+      - 0002 Layered/hexagonal: adr/0002-layered-hexagonal-architecture.md
+      - 0003 Value objects: adr/0003-value-objects.md
+      - 0004 Rich aggregate + state machine: adr/0004-rich-aggregate-and-state-machine.md
+      - 0005 Event bus: adr/0005-event-bus.md
+      - 0006 Event log + gap: adr/0006-event-log-and-transactional-gap.md
+      - 0007 Service + CQRS: adr/0007-application-service-cqrs.md
+      - 0008 Ports/repositories/mappers: adr/0008-ports-repositories-mappers.md
+      - 0009 DI container: adr/0009-di-container.md
+      - 0010 Interface adapters: adr/0010-interface-adapters.md
+      - 0011 SQLite + config: adr/0011-infrastructure-sqlite-config.md
+      - 0012 Testing strategy: adr/0012-testing-strategy.md
+      - 0013 Unit of Work + Event Store: adr/0013-transactional-unit-of-work-event-store.md
