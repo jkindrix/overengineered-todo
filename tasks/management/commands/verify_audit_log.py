@@ -25,7 +25,9 @@ class Command(BaseCommand):
                 )
             )
             return
-        raise CommandError(
-            f"TAMPERING DETECTED: the hash chain breaks at event id "
-            f"{result.first_bad_id} (after {result.checked} valid events)."
-        )
+        if result.first_bad_id is not None:
+            raise CommandError(
+                f"TAMPERING DETECTED: the hash chain breaks at event id "
+                f"{result.first_bad_id} (after {result.checked} valid events)."
+            )
+        raise CommandError(f"TAMPERING DETECTED: {result.note}")

@@ -53,14 +53,27 @@ class VerificationResult:
     ok: bool
     checked: int
     first_bad_id: int | None = None
+    note: str = ""
+
+
+def update_head(count: int, head_hash: str) -> None:
+    """Record the expected chain head (row count + last hash). Called on append."""
+    from .models import AuditChainHead
+
+    AuditChainHead.objects.update_or_create(
+        id=1, defaults={"count": count, "head_hash": head_hash}
+    )
 
 
 def verify_chain() -> VerificationResult:
     """Walk the audit log in order and confirm every link is intact.
 
-    Returns the number of events checked and, on failure, the id of the first
-    record whose recorded hashes don't match the recomputed chain.
+    Detects edits and deletions that leave a subsequent record (the chain breaks),
+    and — via the independently-stored head anchor — *trailing truncation*
+    (deleting the final rows), which a bare chain cannot detect.
     """
+    from .models import AuditChainHead
+
     prev_hash = ""
     checked = 0
     for record in DomainEventRecord.objects.order_by("id").iterator():
@@ -75,4 +88,17 @@ def verify_chain() -> VerificationResult:
             return VerificationResult(ok=False, checked=checked, first_bad_id=record.id)
         prev_hash = record.entry_hash
         checked += 1
+
+    # Anchor check: the surviving chain may be internally valid yet truncated.
+    head = AuditChainHead.objects.filter(id=1).first()
+    if head is not None and (head.count != checked or head.head_hash != prev_hash):
+        return VerificationResult(
+            ok=False,
+            checked=checked,
+            note=(
+                f"chain head mismatch: expected {head.count} events ending "
+                f"{head.head_hash[:12]}…, found {checked} ending "
+                f"{(prev_hash or '∅')[:12]}… — trailing rows were truncated."
+            ),
+        )
     return VerificationResult(ok=True, checked=checked)

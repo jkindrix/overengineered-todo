@@ -14,7 +14,7 @@ from typing import Any
 
 from tasks.domain.events import DomainEvent
 
-from .audit_chain import compute_entry_hash
+from .audit_chain import compute_entry_hash, update_head
 from .event_serialization import CURRENT_EVENT_VERSION
 from .models import DomainEventRecord
 
@@ -56,6 +56,8 @@ class DjangoEventStore:
             )
             prev_hash = entry_hash
         DomainEventRecord.objects.bulk_create(records)
+        # Advance the tamper-evidence anchor (detects trailing truncation).
+        update_head(DomainEventRecord.objects.count(), prev_hash)
 
 
 def _json_safe(payload: dict) -> dict[str, Any]:

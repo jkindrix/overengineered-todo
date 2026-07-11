@@ -5,6 +5,7 @@ from __future__ import annotations
 from django.contrib import admin
 
 from tasks.infrastructure.models import (
+    AuditChainHead,
     DomainEventRecord,
     TaskRecord,
     TaskSnapshot,
@@ -57,3 +58,12 @@ class TaskStatisticsAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request) -> bool:
         return False  # maintained by the projector, not by hand
+
+
+@admin.register(AuditChainHead)
+class AuditChainHeadAdmin(admin.ModelAdmin):
+    list_display = ("id", "count", "head_hash")
+    readonly_fields = ("id", "count", "head_hash")
+
+    def has_add_permission(self, request) -> bool:
+        return False

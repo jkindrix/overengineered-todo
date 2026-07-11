@@ -47,6 +47,7 @@ def test_edited_row_is_detected():
 def test_edited_payload_is_detected():
     _make_history()
     victim = DomainEventRecord.objects.order_by("id").first()
+    assert victim is not None
     victim.payload = {**victim.payload, "title": "smuggled change"}
     victim.save(update_fields=["payload"])
 
@@ -65,3 +66,29 @@ def test_deleted_row_is_detected():
     assert not result.ok
     # The break surfaces at the row that followed the deleted one.
     assert result.first_bad_id == ids[2]
+
+
+@pytest.mark.django_db
+def test_deleting_the_last_row_is_detected_via_the_head_anchor():
+    _make_history()
+    last_id = (
+        DomainEventRecord.objects.order_by("-id").values_list("id", flat=True).first()
+    )
+    DomainEventRecord.objects.filter(id=last_id).delete()
+
+    # The surviving chain is internally valid, but the head anchor catches it.
+    result = verify_chain()
+    assert not result.ok
+    assert result.first_bad_id is None
+    assert "truncated" in result.note
+
+
+@pytest.mark.django_db
+def test_truncating_multiple_trailing_rows_is_detected():
+    _make_history()
+    ids = list(DomainEventRecord.objects.order_by("id").values_list("id", flat=True))
+    DomainEventRecord.objects.filter(id__in=ids[-2:]).delete()  # drop the last two
+
+    result = verify_chain()
+    assert not result.ok
+    assert "truncated" in result.note

@@ -79,6 +79,28 @@ class DomainEventRecord(models.Model):
         return f"{self.event_name}@{self.aggregate_id}"
 
 
+class AuditChainHead(models.Model):
+    """Singleton anchor for the audit hash chain: the expected row count and the
+    hash of the last row. Lets `verify_chain` detect *trailing truncation*
+    (deleting the final rows), which a bare chain cannot. See ADR-0014.
+
+    Caveat: stored in the same database, so it only fully protects against an
+    attacker who forgets to also rewrite it; real tamper-resistance needs the
+    anchor in external / write-once / signed storage.
+    """
+
+    id = models.PositiveSmallIntegerField(primary_key=True, default=1)
+    count = models.BigIntegerField(default=0)
+    head_hash = models.CharField(max_length=64, blank=True, default="")
+
+    class Meta:
+        app_label = "tasks"
+        db_table = "tasks_audit_chain_head"
+
+    def __str__(self) -> str:  # pragma: no cover - display helper
+        return f"head(count={self.count})"
+
+
 class TaskSnapshot(models.Model):
     """A cached fold of an aggregate's events up to `last_event_id`.
 

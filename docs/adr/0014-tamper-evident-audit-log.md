@@ -37,18 +37,22 @@ cron job, or CI can check it.
 ## Consequences
 
 ### Positive
-- **Tampering is detectable.** Editing or deleting any past row breaks the chain
-  from that point; `verify_chain` pinpoints the first bad row. Verified by tests
-  (edited field, edited payload, deleted row).
+- **Tampering is detectable.** The chain catches edits to any row and deletions that
+  leave a subsequent row; `verify_chain` pinpoints the first bad row. A bare chain
+  *cannot* catch trailing truncation (deleting the final rows leaves a valid shorter
+  chain), so an independently-stored **head anchor** (`AuditChainHead`: expected count
+  + last hash) is checked too. Verified by tests (edited field, edited payload,
+  middle delete, last-row delete, multi-row truncation).
 - Self-contained: the change lives entirely in infrastructure — the domain,
   application, and interface layers are untouched.
 - No user-facing or behavioral change; adds one capability.
 
 ### Negative / caveats
 - **Tamper-*evident*, not tamper-*proof*.** An attacker who can write to the DB can
-  edit a row *and* recompute the rest of the chain, restoring consistency. Closing
-  that requires a secret the attacker lacks — see the HMAC alternative below — or
-  truly write-once storage. Recorded in [TECH_DEBT.md](../TECH_DEBT.md).
+  edit a row *and* recompute the rest of the chain — and, since the head anchor lives
+  in the same DB, rewrite that too. Closing that requires a secret the attacker lacks
+  (the HMAC alternative below) or truly external / write-once storage for the anchor.
+  Recorded in [TECH_DEBT.md](../TECH_DEBT.md).
 - **Appends are serialized.** Each append reads the previous hash, so concurrent
   appends must be ordered. Fine on SQLite (already serialized) and within our
   transaction; on high-concurrency PostgreSQL you'd need row-locking or a
