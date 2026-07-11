@@ -7,6 +7,14 @@ by hand. Releases are cut by `.github/workflows/release.yml` on pushes to `main`
 
 <!-- version list -->
 
+## v1.3.0 (2026-07-11)
+
+### Features
+
+- CQRS read-model projection (status counts)
+  ([`d9c155b`](https://github.com/jkindrix/overengineered-todo/commit/d9c155b3a6a11b954cdbcf1b45266cb6b0aa2a81))
+
+
 ## v1.2.0 (2026-07-10)
 
 ### Documentation
