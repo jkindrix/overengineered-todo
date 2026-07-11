@@ -7,6 +7,14 @@ by hand. Releases are cut by `.github/workflows/release.yml` on pushes to `main`
 
 <!-- version list -->
 
+## v1.4.0 (2026-07-11)
+
+### Features
+
+- GraphQL transport (Strawberry) over the same application service
+  ([`7754335`](https://github.com/jkindrix/overengineered-todo/commit/7754335593d289aa7f734f280e10b8c55ccbdc4f))
+
+
 ## v1.3.0 (2026-07-11)
 
 ### Features
