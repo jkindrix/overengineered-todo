@@ -7,6 +7,27 @@ by hand. Releases are cut by `.github/workflows/release.yml` on pushes to `main`
 
 <!-- version list -->
 
+## v1.4.1 (2026-07-11)
+
+### Bug Fixes
+
+- **a11y**: Labels, live region, skip link, focus styles
+  ([`13dc310`](https://github.com/jkindrix/overengineered-todo/commit/13dc3106e4399799d7e35b311cf3ad9f101759d1))
+
+- **audit**: Detect trailing truncation with a head anchor
+  ([`ffbb71c`](https://github.com/jkindrix/overengineered-todo/commit/ffbb71c6ac8198ab19f2842d7a62f39122e06145))
+
+### Continuous Integration
+
+- Make pyright a real gate (CI + pre-commit)
+  ([`e522803`](https://github.com/jkindrix/overengineered-todo/commit/e522803865b3ac1fcbebf23a6797046d8c0438ef))
+
+### Documentation
+
+- Reconcile stale docs and sharpen the security scope
+  ([`53f2333`](https://github.com/jkindrix/overengineered-todo/commit/53f2333a859eec9ddbc785e4511126172fa6d027))
+
+
 ## v1.4.0 (2026-07-11)
 
 ### Features
