@@ -16,33 +16,40 @@
   <h2 class="panel-title">Create a task</h2>
   <form class="create-form" method="post" action="{% url 'web-task-create' %}">
     {% csrf_token %}
-    <input class="input input--grow" type="text" name="title" placeholder="What needs doing?" required maxlength="200">
-    <select class="input" name="priority" title="Priority">
+    <label class="visually-hidden" for="new-title">Task title</label>
+    <input class="input input--grow" id="new-title" type="text" name="title" placeholder="What needs doing?" required maxlength="200">
+    <label class="visually-hidden" for="new-priority">Priority</label>
+    <select class="input" id="new-priority" name="priority">
       {% for p in priorities %}
         <option value="{{ p }}" {% if p == 'NORMAL' %}selected{% endif %}>{{ p|title }}</option>
       {% endfor %}
     </select>
-    <input class="input input--grow" type="text" name="description" placeholder="Optional description" maxlength="5000">
+    <label class="visually-hidden" for="new-description">Description</label>
+    <input class="input input--grow" id="new-description" type="text" name="description" placeholder="Optional description" maxlength="5000">
     <button class="btn btn--primary" type="submit">Add</button>
   </form>
 </section>
 
 <section class="panel">
-  <form class="filters" method="get" action="{% url 'web-task-list' %}">
-    <input class="input" type="search" name="search" value="{{ filters.search }}" placeholder="Search…">
-    <select class="input" name="status">
+  <form class="filters" method="get" action="{% url 'web-task-list' %}" aria-label="Filter tasks">
+    <label class="visually-hidden" for="filter-search">Search tasks</label>
+    <input class="input" id="filter-search" type="search" name="search" value="{{ filters.search }}" placeholder="Search…">
+    <label class="visually-hidden" for="filter-status">Filter by status</label>
+    <select class="input" id="filter-status" name="status">
       <option value="">All statuses</option>
       {% for s in statuses %}
         <option value="{{ s }}" {% if s == filters.status %}selected{% endif %}>{{ s|title }}</option>
       {% endfor %}
     </select>
-    <select class="input" name="priority">
+    <label class="visually-hidden" for="filter-priority">Filter by priority</label>
+    <select class="input" id="filter-priority" name="priority">
       <option value="">All priorities</option>
       {% for p in priorities %}
         <option value="{{ p }}" {% if p == filters.priority %}selected{% endif %}>{{ p|title }}</option>
       {% endfor %}
     </select>
-    <select class="input" name="order_by">
+    <label class="visually-hidden" for="filter-order">Sort order</label>
+    <select class="input" id="filter-order" name="order_by">
       <option value="-created_at" {% if filters.order_by == '-created_at' %}selected{% endif %}>Newest</option>
       <option value="created_at" {% if filters.order_by == 'created_at' %}selected{% endif %}>Oldest</option>
       <option value="-priority" {% if filters.order_by == '-priority' %}selected{% endif %}>Priority high&rarr;low</option>

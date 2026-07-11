@@ -197,8 +197,29 @@ main.wrap { padding: 24px 0 64px; }
 /* Footer */
 .footer { border-top: 1px solid var(--border); color: var(--text-dim); font-size: 0.82rem; padding: 20px 0; }
 
+/* Accessibility */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip-link {
+  position: absolute; left: 8px; top: -48px; z-index: 100;
+  background: var(--accent-strong); color: #fff; padding: 8px 14px;
+  border-radius: 8px; text-decoration: none; transition: top 0.15s ease;
+}
+.skip-link:focus { top: 8px; }
+.messages:empty { display: none; }
+/* Clear, consistent keyboard-focus indicator on all interactive elements. */
+a:focus-visible, button:focus-visible, .input:focus-visible,
+input:focus-visible, select:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
 @media (max-width: 640px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
   .card { flex-direction: column; }
   .card-actions { max-width: 100%; justify-content: flex-start; }
+  .topbar .wrap { height: auto; flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px 0; }
+  .topnav { flex-wrap: wrap; gap: 12px; }
 }
