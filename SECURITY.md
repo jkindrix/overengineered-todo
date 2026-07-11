@@ -2,6 +2,13 @@
 
 ## Scope
 
+> **⚠️ Do not expose this application to an untrusted network without adding
+> authentication and authorization.** The REST and GraphQL APIs are intentionally
+> **open and unauthenticated**, and GraphQL is **CSRF-exempt**. The production-
+> hardening settings make it *deployment-shaped*, not *safe to publish*. Keep it
+> loopback-only until authentication (planned as #27) is added — and when
+> cookie-based auth arrives, the blanket GraphQL CSRF exemption must be revisited.
+
 This is a deliberately over-engineered **demonstration / teaching** project — a
 local to-do app. It is not intended for production use as-is (it ships with an
 insecure development `SECRET_KEY` default, guarded by a boot check that refuses to

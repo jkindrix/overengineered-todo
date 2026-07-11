@@ -21,12 +21,17 @@ durability, not a transactional *outbox*. An outbox would matter only for
 at-least-once delivery to an *external* bus, which this app does not have. If one is
 ever added, the outbox relay is the next step.
 
-## 2. "Event sourcing" is really an audit event log (naming, still stands)
+## 2. The *main app* is state-driven; event sourcing is a parallel demonstration
 
-**The `TaskRecord` row is the source of truth; the events are a parallel history.**
-True event sourcing would make the events authoritative and reconstruct aggregate
-state by *replaying* them — plus snapshots, versioning, and upcasting, none of which
-exist here. Read it as a **domain-event audit log**.
+**In the running application, the `TaskRecord` row is the source of truth and the
+events are a parallel history — a domain-event audit log.** All reads/queries go
+through the state table.
+
+The event-sourcing machinery (replay, snapshots, versioning, upcasting) *does*
+exist, but as an **alternate demonstration** (`EventSourcedTaskRepository`) built in
+[ADR-0016](adr/0016-event-sourcing.md) — see item #12 below. It is not what the app
+uses to serve requests. So "we don't do event sourcing" is true of the *app's
+behaviour*, not of the codebase, which demonstrates both.
 
 The user-facing "Event-Sourced" label in the footer was corrected to "Audit-Logged"
 (2026-07-09). The `FEATURE_EVENT_SOURCING` flag name is retained to avoid churning
@@ -89,12 +94,19 @@ reporting requirement would motivate a typed projection.
 
 ## 10. Audit log is tamper-*evident*, not tamper-*proof*
 
-The hash chain ([ADR-0014](adr/0014-tamper-evident-audit-log.md)) detects edits and
-deletions but does not prevent them: an attacker with write access can alter a row
-and recompute the rest of the chain. Making it tamper-*resistant* needs a secret
-the attacker lacks (HMAC-signed chain) or write-once storage. Also, chained appends
-are serialized — fine on SQLite, but concurrent writers on PostgreSQL would need
-row-locking. Both are conscious trade-offs for a demonstration.
+The hash chain ([ADR-0014](adr/0014-tamper-evident-audit-log.md)) *detects* tampering
+but does not *prevent* it. It catches: edits to any row, and deletions that leave a
+subsequent row (the chain breaks). Bare hash chains **cannot** catch *trailing
+truncation* (deleting the final rows leaves a valid shorter chain), so we added an
+independently-stored **head anchor** (`AuditChainHead`: expected count + last hash)
+that `verify_chain` checks — which catches truncation too.
+
+Residual limits (conscious trade-offs for a demonstration): the anchor lives in the
+same database, so an attacker who rewrites *both* the rows and the anchor still
+evades detection — true tamper-*resistance* needs the anchor in external / write-once
+/ signed storage, or an HMAC-signed chain keyed by a secret the attacker lacks. And
+chained appends are serialized (fine on SQLite; PostgreSQL writers would need
+row-locking).
 
 ## 11. The TLA+ spec can drift from the code
 

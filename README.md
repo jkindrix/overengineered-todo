@@ -22,6 +22,14 @@ and a health check. It runs on SQLite with **zero external services**.
 > Is any of this necessary for a TODO app? Absolutely not. That's the joke.
 > Is every layer real, wired up, and tested? Yes.
 
+> [!WARNING]
+> **Do not expose this application to an untrusted network without adding
+> authentication and authorization.** The REST and GraphQL APIs are intentionally
+> **open and unauthenticated** (GraphQL is CSRF-exempt) — it's a local teaching
+> demo. The production-hardening settings (`DEBUG=False`, secure cookies, HSTS, the
+> `SECRET_KEY` boot guard) make it *deployment-shaped*, **not** *safe to publish*.
+> Auth is a planned item (#27); until then, keep it loopback-only.
+
 ---
 
 ## Documentation
@@ -57,23 +65,34 @@ tasks/
 │   ├── event_bus.py       # Synchronous in-memory pub/sub (post-commit)
 │   └── handlers.py        # Post-commit subscribers (structured logging)
 │
-├── infrastructure/   # Concrete adapters. The only layer that imports Django.
-│   ├── models.py          # ORM records (TaskRecord, DomainEventRecord)
-│   ├── mappers.py         # ORM record <-> domain entity
-│   ├── repositories.py    # DjangoTaskRepository (implements the port)
-│   ├── unit_of_work.py    # DjangoUnitOfWork (transaction.atomic boundary)
-│   ├── event_store.py     # DjangoEventStore (transactional audit append)
-│   └── container.py       # DI composition root; wires the object graph
+├── infrastructure/   # Concrete adapters. Imports Django (as does interface).
+│   ├── models.py               # ORM records (TaskRecord, DomainEventRecord, snapshots, stats, chain head)
+│   ├── mappers.py              # ORM record <-> domain entity
+│   ├── repositories.py         # DjangoTaskRepository (implements the port)
+│   ├── unit_of_work.py         # DjangoUnitOfWork (transaction.atomic boundary)
+│   ├── event_store.py          # DjangoEventStore (transactional audit append)
+│   ├── audit_chain.py          # Tamper-evident hash chain + verify (ADR-0014)
+│   ├── event_serialization.py  # Row <-> event (de)serialization + upcasting
+│   ├── event_sourced_repository.py  # Load-by-replay + time-travel (ADR-0016)
+│   ├── projections.py          # CQRS read model + projector (ADR-0017)
+│   └── container.py            # DI composition root; wires the object graph
 │
-└── interface/        # Transport adapters (HTTP/REST, web UI, health).
+└── interface/        # Transport adapters. Also imports Django/DRF/Strawberry.
     ├── serializers.py     # DRF input validation
     ├── presenters.py      # Domain entity -> serializable dict
-    ├── api_views.py       # DRF ViewSet
+    ├── api_views.py       # DRF ViewSet (REST)
+    ├── graphql_api.py     # GraphQL schema (Strawberry) — ADR-0018
     ├── web_views.py       # Server-rendered pages + form actions
     ├── exceptions.py      # Domain error -> HTTP status mapping
     ├── health.py          # /healthz liveness+readiness probe
     └── urls.py            # Routes
 ```
+
+> The **dependency rule** is that `domain/` and `application/` import no framework
+> (enforced by `import-linter`); the outer two layers — `infrastructure/` *and*
+> `interface/` — may import Django/DRF/Strawberry. Management commands
+> (`seed_tasks`, `verify_audit_log`, `rebuild_projections`) live under
+> `tasks/management/`.
 
 **The flow of a single click:** a web form or REST call →
 `serializer`/DTO → `TaskApplicationService` → `Task` aggregate (enforces
