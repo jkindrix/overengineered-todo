@@ -47,3 +47,9 @@ repos:
         language: system
         pass_filenames: false
         types: [python]
+      - id: pyright
+        name: pyright (whole repo)
+        entry: pyright
+        language: system
+        pass_filenames: false
+        types: [python]

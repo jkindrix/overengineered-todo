@@ -34,6 +34,8 @@ jobs:
           ruff format --check .
       - name: Type check (mypy, strict core)
         run: mypy tasks/domain tasks/application
+      - name: Type check (pyright, whole repo)
+        run: pyright
       - name: Architecture contracts (import-linter)
         run: lint-imports
       - name: Security lint (bandit)
