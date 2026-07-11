@@ -86,6 +86,8 @@ Business concepts with zero framework or persistence knowledge.
 - `serializers.py` — DRF **input** validation only.
 - `presenters.py` — render a `Task` entity → serializable dict (the **output**).
 - `api_views.py` — DRF `ViewSet` (REST).
+- `graphql_api.py` — GraphQL schema (Strawberry) — a third transport over the same
+  service. → [ADR-0018](adr/0018-graphql-transport.md)
 - `web_views.py` — server-rendered pages + form actions (Post/Redirect/Get).
 - `exceptions.py` — maps domain errors → HTTP status codes.
 - `health.py` — liveness/readiness probe with a real DB round-trip.

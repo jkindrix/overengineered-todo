@@ -1,11 +1,15 @@
-"""URL routing for the tasks interface layer (REST API + web UI)."""
+"""URL routing for the tasks interface layer (REST API + web UI + GraphQL)."""
 
 from __future__ import annotations
 
+from django.conf import settings
 from django.urls import path
+from django.views.decorators.csrf import csrf_exempt
+from strawberry.django.views import GraphQLView
 
 from . import web_views
 from .api_views import TaskViewSet
+from .graphql_api import schema
 
 # Manually bind the ViewSet's actions to routes. A router would also work, but
 # explicit wiring keeps the API surface obvious and greppable.
@@ -56,5 +60,18 @@ urlpatterns = [
         "api/tasks/<uuid:pk>/transition/",
         task_transition,
         name="api-task-transition",
+    ),
+    # --- GraphQL --------------------------------------------------------
+    # CSRF-exempt: it's an API endpoint (auth arrives in a later phase).
+    # GraphiQL playground only in DEBUG.
+    path(
+        "graphql/",
+        csrf_exempt(
+            GraphQLView.as_view(
+                schema=schema,
+                graphql_ide="graphiql" if settings.DEBUG else None,
+            )
+        ),
+        name="graphql",
     ),
 ]

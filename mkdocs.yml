@@ -87,3 +87,4 @@ nav:
       - 0015 Formal spec (TLA+): adr/0015-formal-spec-tla-plus.md
       - 0016 Event sourcing: adr/0016-event-sourcing.md
       - 0017 CQRS read model: adr/0017-cqrs-read-model.md
+      - 0018 GraphQL transport: adr/0018-graphql-transport.md

@@ -35,6 +35,7 @@ Context, Decision, Consequences, Alternatives considered, Related.
 | [0015](0015-formal-spec-tla-plus.md) | Formally verify the state machine with TLA+ | Accepted |
 | [0016](0016-event-sourcing.md) | Demonstrate event sourcing (replay, snapshots, versioning) | Accepted |
 | [0017](0017-cqrs-read-model.md) | A CQRS read-model projection (status counts) | Accepted |
+| [0018](0018-graphql-transport.md) | Add a GraphQL transport (Strawberry) | Accepted |
 
 ## Conventions
 

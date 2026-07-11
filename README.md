@@ -16,8 +16,8 @@ tasks — implemented with a **clean/hexagonal architecture**, a **rich domain
 model**, **domain events**, an append-only **domain-event audit log**, a **finite
 state machine** for the task lifecycle, a **light CQRS** command/query split,
 the **repository pattern**, a hand-rolled **dependency-injection container**,
-**feature flags**, a **REST API**, a server-rendered **web UI**, and a health
-check. It runs on SQLite with **zero external services**.
+**feature flags**, a **REST API**, a **GraphQL API**, a server-rendered **web UI**,
+and a health check. It runs on SQLite with **zero external services**.
 
 > Is any of this necessary for a TODO app? Absolutely not. That's the joke.
 > Is every layer real, wired up, and tested? Yes.
@@ -132,6 +132,7 @@ Then open:
 |-----|------|
 | http://127.0.0.1:8000/ | Web UI (the task board) |
 | http://127.0.0.1:8000/api/tasks/ | Browsable REST API |
+| http://127.0.0.1:8000/graphql/ | GraphQL API + GraphiQL playground |
 | http://127.0.0.1:8000/healthz/ | Health check (JSON) |
 | http://127.0.0.1:8000/admin/ | Django admin (see below) |
 

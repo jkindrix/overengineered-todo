@@ -8,3 +8,4 @@ Django==5.2.16
 djangorestframework==3.16.1
 django-filter==25.2
 python-dotenv==1.2.2
+strawberry-graphql>=0.240,<1.0

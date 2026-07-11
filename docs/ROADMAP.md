@@ -72,7 +72,7 @@ teaching goal without it.)*
 - [x] #24 — TLA+ spec, model-checked in CI 🎭⭐ L — `spec/TaskLifecycle.tla` + TLC CI job + [ADR-0015](adr/0015-formal-spec-tla-plus.md) + [verified 3 ways](verified-three-ways.md)
 - [x] #22 — event sourcing (replay/snapshots/versioning) 🎭 L — Option B: `Task.rebuild`/`_apply` + `EventSourcedTaskRepository` + snapshots + upcasting, alongside the state table ([ADR-0016](adr/0016-event-sourcing.md), [docs](event-sourcing.md))
 - [x] #21 — CQRS (read models/projections) 🎭 L — Option B: `TaskStatistics` projection + `StatisticsProjector` + `rebuild_projections`; also added `TaskDeleted` event ([ADR-0017](adr/0017-cqrs-read-model.md), [docs](cqrs.md))
-- [ ] #26 — gRPC/GraphQL adapter 🎭 M
+- [x] #26 — GraphQL adapter (Strawberry) 🎭 M — third transport over the same service/DTOs/presenters at `/graphql/` ([ADR-0018](adr/0018-graphql-transport.md)); gRPC skipped (overlaps #25)
 - [ ] #25 — polyglot port 🎭⭐ L *(largest; last)*
 
 **Phase 5 — Product realism** — close the toy gap. *Order:* auth → authz →
