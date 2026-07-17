@@ -5,7 +5,7 @@
 # Django 5.2 is an LTS release (supported until April 2028) and the correct
 # target for Python 3.11; Django 6.0 requires Python 3.12+.
 Django==5.2.16
-djangorestframework==3.16.1
-django-filter==25.2
+djangorestframework==3.17.1
+django-filter==26.1
 python-dotenv==1.2.2
 strawberry-graphql>=0.240,<1.0
