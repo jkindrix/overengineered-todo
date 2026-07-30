@@ -16,3 +16,10 @@ db.sqlite3
 # Tooling
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
+
+# Build / generated artifacts (not version-controlled)
+.coverage
+coverage.xml
+htmlcov/
+/site/
